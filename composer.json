@@ -1,0 +1,41 @@
+{
+    "name": "irontec/ivoz-core",
+    "description": "Core library for ivozprovider",
+    "license": "GPL-3.0-or-later",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Carlos Cruz",
+            "email": "carlos@irontec.com"
+        },
+        {
+            "name": "Ivan Alonso",
+            "email": "kaian@irontec.com"
+        },
+        {
+            "name": "Mikel Madariaga",
+            "email": "mikel@irontec.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Ivoz\\Core\\": ""
+        }
+    },
+    "require": {
+        "php": ">=7.0.19",
+        "beberlei/assert": "2.9.*",
+        "doctrine/orm": "^2.5",
+        "graze/guzzle-jsonrpc": "3.2.*",
+        "guzzlehttp/guzzle": "^6.3",
+        "lexik/jwt-authentication-bundle": "^2.5",
+        "ramsey/uuid": "^3.7",
+        "symfony/expression-language": "3.4.*",
+        "symfony/finder": "3.4.*",
+        "symfony/http-foundation": "3.4.*",
+        "symfony/serializer": "3.4.*"
+    },
+    "require-dev": {
+    }
+}
