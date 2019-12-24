@@ -7,43 +7,31 @@ use Ivoz\Cgr\Domain\Model\TpCdr\TpCdrRepository;
 use Ivoz\Core\Application\Service\EntityTools;
 use Ivoz\Kam\Domain\Model\TrunksCdr\TrunksCdrDto;
 use Ivoz\Kam\Domain\Model\TrunksCdr\TrunksCdrInterface;
+use Ivoz\Kam\Domain\Service\TrunksClientInterface;
 use Psr\Log\LoggerInterface;
-use Zend\EventManager\Exception\DomainException;
 
 class ProcessExternalCdr
 {
     const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
 
-    /**
-     * @var ApiClient
-     */
     protected $apiClient;
-
-    /**
-     * @var EntityTools
-     */
     protected $entityTools;
-
-    /**
-     * @var TpCdrRepository
-     */
     protected $tpCdrRepository;
-
-    /**
-     * @var LoggerInterface
-     */
     protected $logger;
+    protected $trunksClient;
 
     public function __construct(
         ApiClient $apiClient,
         EntityTools $entityTools,
         TpCdrRepository $tpCdrRepository,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        TrunksClientInterface $trunksClient
     ) {
         $this->entityTools = $entityTools;
         $this->logger = $logger;
         $this->tpCdrRepository = $tpCdrRepository;
         $this->apiClient = $apiClient;
+        $this->trunksClient = $trunksClient;
     }
 
     /**
@@ -60,6 +48,10 @@ class ProcessExternalCdr
 
         $carrier = $trunksCdr->getCarrier();
         if ($carrier && $carrier->getExternallyRated()) {
+            return false;
+        }
+
+        if (!$this->trunksClient->isCgrEnabled()) {
             return false;
         }
 
@@ -125,7 +117,7 @@ class ProcessExternalCdr
             );
             $this->logger->error($errorMsg);
 
-            throw new \DomainException('There was a error on external CDR processing');
+            throw new \DomainException('There was a error on external CDR processing', $e->getCode(), $e);
         }
 
         return true;
