@@ -2,10 +2,12 @@
 
 namespace Ivoz\Core\Infrastructure\Domain\Service\Cgrates;
 
+use Graze\GuzzleHttp\JsonRpc\ClientInterface;
+
 class ReassembleTriggerService extends AbstractApiBasedService
 {
     public function __construct(
-        CgrRpcClient $jsonRpcClient
+        ClientInterface $jsonRpcClient
     ) {
         parent::__construct(
             $jsonRpcClient

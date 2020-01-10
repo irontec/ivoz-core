@@ -2,6 +2,8 @@
 
 namespace Ivoz\Core\Infrastructure\Domain\Service\Cgrates;
 
+use Graze\GuzzleHttp\JsonRpc\ClientInterface;
+
 class SetMaxUsageThresholdService extends AbstractApiBasedService
 {
     private $companyBalanceService;
@@ -9,7 +11,7 @@ class SetMaxUsageThresholdService extends AbstractApiBasedService
     private $enableAccountService;
 
     public function __construct(
-        CgrRpcClient $jsonRpcClient,
+        ClientInterface $jsonRpcClient,
         CompanyBalanceService $companyBalanceService,
         ReassembleTriggerService $reassembleTriggerService,
         EnableAccountService $enableAccountService

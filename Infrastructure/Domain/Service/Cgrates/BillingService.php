@@ -6,13 +6,15 @@ use Ivoz\Cgr\Domain\Model\TpRatingProfile\SimulatedCall;
 use Ivoz\Core\Application\Service\EntityTools;
 use Ivoz\Provider\Domain\Service\RatingProfile\BillingServiceInterface;
 
+use Graze\GuzzleHttp\JsonRpc\ClientInterface;
+
 class BillingService implements BillingServiceInterface
 {
     protected $client;
     protected $entityTools;
 
     public function __construct(
-        CgrRpcClient $client,
+        ClientInterface $client,
         EntityTools $entityTools
     ) {
         $this->client = $client;

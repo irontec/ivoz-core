@@ -4,6 +4,7 @@ namespace Ivoz\Core\Infrastructure\Domain\Service\Cgrates;
 
 use GuzzleHttp\Exception\RequestException;
 use Ivoz\Core\Domain\Model\EntityInterface;
+use Graze\GuzzleHttp\JsonRpc\ClientInterface;
 
 abstract class AbstractBalanceService
 {
@@ -14,7 +15,7 @@ abstract class AbstractBalanceService
     const UNLIMITED_MAX_DAILY_USAGE = 1000000;
 
     public function __construct(
-        CgrRpcClient $client
+        ClientInterface $client
     ) {
         $this->client = $client;
     }

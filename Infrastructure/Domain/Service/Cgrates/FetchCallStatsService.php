@@ -6,6 +6,7 @@ use GuzzleHttp\Exception\RequestException;
 use Ivoz\Cgr\Domain\Service\TpCdrStat\FetchCallStatsServiceInterface;
 use Ivoz\Provider\Domain\Model\Carrier\CarrierInterface;
 use Ivoz\Provider\Domain\Model\Carrier\CarrierRepository;
+use Graze\GuzzleHttp\JsonRpc\ClientInterface;
 
 class FetchCallStatsService implements FetchCallStatsServiceInterface
 {
@@ -13,7 +14,7 @@ class FetchCallStatsService implements FetchCallStatsServiceInterface
     protected $carrierRepository;
 
     public function __construct(
-        CgrRpcClient $client,
+        ClientInterface $client,
         CarrierRepository $carrierRepository
     ) {
         $this->client = $client;
