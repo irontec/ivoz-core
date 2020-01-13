@@ -9,8 +9,34 @@ use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager as DoctrineEntityManager;
 use Doctrine\ORM\ORMException;
 
-class EntityManager extends DoctrineEntityManager
+class EntityManager extends DoctrineEntityManager implements ToggleableBufferedQueryInterface
 {
+    public function enableBufferedQuery()
+    {
+        $this->setBufferedQuery(true);
+    }
+
+    public function disableBufferedQuery()
+    {
+        $this->setBufferedQuery(false);
+    }
+
+    private function setBufferedQuery(bool $enabled = true)
+    {
+        // https://www.php.net/manual/en/mysqlinfo.concepts.buffering.php
+
+        (function () use ($enabled) {
+            $this->connect();
+            $driverName = $this->_conn->getAttribute(\PDO::ATTR_DRIVER_NAME);
+            if ($driverName === 'mysql') {
+                $this->_conn->setAttribute(
+                    \PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,
+                    $enabled
+                );
+            }
+        })->call($this->getConnection());
+    }
+
     public static function create($conn, Configuration $config, EventManager $eventManager = null)
     {
         if (! $config->getMetadataDriverImpl()) {
