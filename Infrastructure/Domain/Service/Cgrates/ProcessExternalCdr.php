@@ -78,13 +78,13 @@ class ProcessExternalCdr
         ];
 
         if ($carrier) {
-            $reqType = $carrier->getCalculateCost()
-                ? '*postpaid'
-                : '*rated';
+            $calculateCost = $carrier->getCalculateCost()
+                ? '1'
+                : '0';
 
             $payload['ExtraFields'] = [
                 'carrierId' => 'cr' . $carrier->getId(),
-                'carrierReqtype' => $reqType
+                'calculateCost' => $calculateCost
             ];
         }
 
