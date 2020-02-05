@@ -41,6 +41,11 @@ class DoctrineEventSubscriber implements EventSubscriber
      */
     protected $flushedEntities = [];
 
+    /**
+     * @var EntityInterface[]
+     */
+    protected $loadedEntities = [];
+
     public function __construct(
         ContainerInterface $serviceContainer,
         EntityManagerInterface $em,
@@ -72,7 +77,8 @@ class DoctrineEventSubscriber implements EventSubscriber
 
             CustomEvents::preCommit,
             CustomEvents::onCommit,
-            CustomEvents::onError
+            CustomEvents::onError,
+            CustomEvents::onHydratorComplete,
         ];
     }
 
@@ -83,8 +89,16 @@ class DoctrineEventSubscriber implements EventSubscriber
     {
         $object = $args->getObject();
         if ($object instanceof EntityInterface) {
+            $this->loadedEntities[] = $object;
+        }
+    }
+
+    public function onHydratorComplete()
+    {
+        foreach ($this->loadedEntities as $object) {
             $object->initChangelog();
         }
+        $this->loadedEntities = [];
     }
 
     /**

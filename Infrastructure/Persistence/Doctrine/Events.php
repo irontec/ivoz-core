@@ -12,4 +12,6 @@ final class Events
     const preCommit = 'preCommit';
 
     const onError = 'onError';
+
+    const onHydratorComplete = 'onHydratorComplete';
 }
