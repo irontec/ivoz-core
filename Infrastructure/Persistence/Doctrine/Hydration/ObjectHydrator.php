@@ -10,13 +10,15 @@ class ObjectHydrator extends DoctrineObjectHydrator
     /**
      * {@inheritdoc}
      */
-    protected function cleanup()
+    protected function hydrateAllData()
     {
-        parent::cleanup();
+        $response = parent::hydrateAllData();
 
         $evm = $this->_em->getEventManager();
         $evm->dispatchEvent(
             Events::onHydratorComplete
         );
+
+        return $response;
     }
 }
