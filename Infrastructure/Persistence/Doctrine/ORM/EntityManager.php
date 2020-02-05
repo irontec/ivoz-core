@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManager as DoctrineEntityManager;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query;
 use Ivoz\Core\Infrastructure\Persistence\Doctrine\Hydration\ObjectHydrator;
+use Ivoz\Core\Infrastructure\Persistence\Doctrine\Hydration\SimpleObjectHydrator;
 
 class EntityManager extends DoctrineEntityManager implements ToggleableBufferedQueryInterface
 {
@@ -74,6 +75,10 @@ class EntityManager extends DoctrineEntityManager implements ToggleableBufferedQ
     {
         if ($hydrationMode === Query::HYDRATE_OBJECT) {
             return new ObjectHydrator($this);
+        }
+
+        if ($hydrationMode === Query::HYDRATE_SIMPLEOBJECT) {
+            return new SimpleObjectHydrator($this);
         }
 
         return parent::newHydrator(...func_get_args());
