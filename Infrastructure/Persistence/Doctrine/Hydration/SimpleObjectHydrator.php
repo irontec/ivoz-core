@@ -10,9 +10,13 @@ class SimpleObjectHydrator extends DoctrineSimpleObjectHydrator
     /**
      * {@inheritdoc}
      */
-    protected function hydrateAllData()
+    public function hydrateAll($stmt, $resultSetMapping, array $hints = array())
     {
-        $response = parent::hydrateAllData();
+        $response = parent::hydrateAll(...func_get_args());
+
+        if (empty($response)) {
+            return $response;
+        }
 
         $evm = $this->_em->getEventManager();
         $evm->dispatchEvent(
