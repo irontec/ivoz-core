@@ -4,6 +4,7 @@ namespace Ivoz\Core\Infrastructure\Persistence\Doctrine\Hydration;
 
 use Doctrine\ORM\Internal\Hydration\SimpleObjectHydrator as DoctrineSimpleObjectHydrator;
 use Ivoz\Core\Infrastructure\Persistence\Doctrine\Events;
+use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 
 class SimpleObjectHydrator extends DoctrineSimpleObjectHydrator
 {
@@ -19,9 +20,15 @@ class SimpleObjectHydrator extends DoctrineSimpleObjectHydrator
         }
 
         $evm = $this->_em->getEventManager();
-        $evm->dispatchEvent(
-            Events::onHydratorComplete
-        );
+        foreach ($response as $entity) {
+            $evm->dispatchEvent(
+                Events::onHydratorComplete,
+                new LifecycleEventArgs(
+                    $entity,
+                    $this->_em
+                )
+            );
+        }
 
         return $response;
     }

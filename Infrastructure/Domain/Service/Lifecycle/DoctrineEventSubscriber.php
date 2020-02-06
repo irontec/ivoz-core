@@ -41,11 +41,6 @@ class DoctrineEventSubscriber implements EventSubscriber
      */
     protected $flushedEntities = [];
 
-    /**
-     * @var EntityInterface[]
-     */
-    protected $loadedEntities = [];
-
     public function __construct(
         ContainerInterface $serviceContainer,
         EntityManagerInterface $em,
@@ -73,7 +68,6 @@ class DoctrineEventSubscriber implements EventSubscriber
             Events::postRemove,
 
             Events::onFlush,
-            Events::postLoad,
 
             CustomEvents::preCommit,
             CustomEvents::onCommit,
@@ -82,23 +76,14 @@ class DoctrineEventSubscriber implements EventSubscriber
         ];
     }
 
-    /**
-     * @return void
-     */
-    public function postLoad(LifecycleEventArgs $args)
+    public function onHydratorComplete(LifecycleEventArgs $args)
     {
         $object = $args->getObject();
-        if ($object instanceof EntityInterface) {
-            $this->loadedEntities[] = $object;
+        if (!$object instanceof EntityInterface) {
+            return;
         }
-    }
 
-    public function onHydratorComplete()
-    {
-        foreach ($this->loadedEntities as $object) {
-            $object->initChangelog();
-        }
-        $this->loadedEntities = [];
+        $object->initChangelog();
     }
 
     /**
