@@ -3,7 +3,7 @@
 namespace Ivoz\Core\Infrastructure\Persistence\Doctrine\Hydration;
 
 use Doctrine\ORM\Internal\Hydration\SimpleObjectHydrator as DoctrineSimpleObjectHydrator;
-use Ivoz\Core\Infrastructure\Persistence\Doctrine\Events;
+use Ivoz\Core\Infrastructure\Persistence\Doctrine\Events as IvozEvents;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 
 class SimpleObjectHydrator extends DoctrineSimpleObjectHydrator
@@ -19,17 +19,34 @@ class SimpleObjectHydrator extends DoctrineSimpleObjectHydrator
             return $response;
         }
 
+        $this->triggerHydratorCompleteEvent(
+            $response
+        );
+
+        return $response;
+    }
+
+    public function hydrateRow()
+    {
+        $response = parent::hydrateRow();
+        $this->triggerHydratorCompleteEvent(
+            $response
+        );
+
+        return $response;
+    }
+
+    protected function triggerHydratorCompleteEvent(array $entities)
+    {
         $evm = $this->_em->getEventManager();
-        foreach ($response as $entity) {
+        foreach ($entities as $entity) {
             $evm->dispatchEvent(
-                Events::onHydratorComplete,
+                IvozEvents::onHydratorComplete,
                 new LifecycleEventArgs(
                     $entity,
                     $this->_em
                 )
             );
         }
-
-        return $response;
     }
 }

@@ -42,11 +42,26 @@ class ObjectHydrator extends DoctrineObjectHydrator
                 }
             );
 
-            $this->triggerHydratorCompleteEvent($foreignEntities);
-            $this->triggerHydratorCompleteEvent($response);
+            $this->triggerHydratorCompleteEvent(
+                $foreignEntities
+            );
+            $this->triggerHydratorCompleteEvent(
+                $response
+            );
         }
 
         $this->loadedEntities = [];
+        throw new \Exception('Object');
+        return $response;
+    }
+
+    public function hydrateRow()
+    {
+        $response = parent::hydrateRow();
+        if (is_array($response)) {
+            $this->triggerHydratorCompleteEvent($response);
+        }
+
         return $response;
     }
 
