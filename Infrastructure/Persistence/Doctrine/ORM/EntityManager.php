@@ -8,9 +8,9 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager as DoctrineEntityManager;
 use Doctrine\ORM\ORMException;
-use Doctrine\ORM\Query;
 use Ivoz\Core\Infrastructure\Persistence\Doctrine\Hydration\ObjectHydrator;
 use Ivoz\Core\Infrastructure\Persistence\Doctrine\Hydration\SimpleObjectHydrator;
+use Ivoz\Core\Infrastructure\Persistence\Doctrine\Hydration\DtoHydrator;
 
 class EntityManager extends DoctrineEntityManager implements ToggleableBufferedQueryInterface
 {
@@ -73,14 +73,18 @@ class EntityManager extends DoctrineEntityManager implements ToggleableBufferedQ
      */
     public function newHydrator($hydrationMode)
     {
-        if ($hydrationMode === Query::HYDRATE_OBJECT) {
-            return new ObjectHydrator($this);
-        }
+        switch ($hydrationMode) {
+            case Query::HYDRATE_OBJECT:
+                return new ObjectHydrator($this);
 
-        if ($hydrationMode === Query::HYDRATE_SIMPLEOBJECT) {
-            return new SimpleObjectHydrator($this);
-        }
+            case Query::HYDRATE_SIMPLEOBJECT:
+                return new SimpleObjectHydrator($this);
 
-        return parent::newHydrator(...func_get_args());
+            case Query::HYDRATE_DTO:
+                return new DtoHydrator($this);
+
+            default:
+                return parent::newHydrator(...func_get_args());
+        }
     }
 }
