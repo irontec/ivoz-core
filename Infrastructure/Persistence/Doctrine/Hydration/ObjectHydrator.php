@@ -51,7 +51,6 @@ class ObjectHydrator extends DoctrineObjectHydrator
         }
 
         $this->loadedEntities = [];
-        throw new \Exception('Object');
         return $response;
     }
 
