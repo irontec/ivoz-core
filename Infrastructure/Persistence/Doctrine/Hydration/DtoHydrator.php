@@ -40,14 +40,20 @@ class DtoHydrator extends ArrayHydrator
     {
         $aliasMap = $this->_rsm->getAliasMap();
 
-        /** @var EntityInterface $dtoClass */
-        $dtoClass = current($aliasMap);
+        /** @var EntityInterface $entityClass */
+        $entityClass = current($aliasMap);
 
         $response = [];
         foreach ($rows as $row) {
-            $dto = $dtoClass::createDto();
+            $dto = $entityClass::createDto();
             foreach ($row as $fld => $value) {
-                $setter = 'set' .ucfirst($fld);
+
+                $normalizedFldSegments = array_map(
+                    'ucfirst',
+                    explode('.', $fld)
+                );
+
+                $setter = 'set' . implode('', $normalizedFldSegments);
                 $dto->{$setter}($value);
             }
             $response[] = $dto;
