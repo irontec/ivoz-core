@@ -17,6 +17,7 @@ use Psr\Log\LoggerInterface;
 class DoctrineQueryRunner
 {
     const DEADLOCK_RETRIES = 3;
+    const RETRY_SLEEP_TIME = 2;
 
     protected $em;
     protected $eventPublisher;
@@ -44,15 +45,16 @@ class DoctrineQueryRunner
      */
     public function execute(string $entityName, AbstractQuery $query)
     {
-        $event = $this->prepareChangelogEvent(
-            $entityName,
-            $query
-        );
-
         $connection = $this->em->getConnection();
         $alreadyWithinTransaction = $connection->isTransactionActive();
 
         if ($alreadyWithinTransaction) {
+
+            $event = $this->prepareChangelogEvent(
+                $entityName,
+                $query
+            );
+
             return $this->runQueryAndReturnAffectedRows(
                 $query,
                 $event
@@ -61,16 +63,29 @@ class DoctrineQueryRunner
 
         $retries = self::DEADLOCK_RETRIES;
         while (0 < $retries--) {
-            $this->em->getConnection()->beginTransaction();
+            $this
+                ->em
+                ->getConnection()
+                ->beginTransaction();
+
             try {
-                $affectedRows = $this->runQueryAndReturnAffectedRows(
-                    $query,
-                    $event
+
+                $affectedRows = $this->execute(
+                    $entityName,
+                    $query
                 );
-                $this->commandPersister->persistEvents();
-                $this->em->getConnection()->commit();
+
+                $this
+                    ->commandPersister
+                    ->persistEvents();
+
+                $this
+                    ->em
+                    ->getConnection()
+                    ->commit();
 
                 return $affectedRows;
+
             } catch (\Exception $e) {
 
                 /**
@@ -78,7 +93,11 @@ class DoctrineQueryRunner
                  * SQLSTATE[40001]: Serialization failure: 1213 Deadlock found when trying to get lock; try restarting transaction
                  * SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
                  */
-                $this->em->getConnection()->rollBack();
+                $this
+                    ->em
+                    ->getConnection()
+                    ->rollBack();
+
                 $lockIssues = false !== strpos(
                     $e->getMessage(),
                     'try restarting transaction'
@@ -92,7 +111,7 @@ class DoctrineQueryRunner
                     'Retrying transaction: ' . $e->getMessage()
                 );
 
-                sleep(2);
+                sleep(self::RETRY_SLEEP_TIME);
             }
         }
     }
