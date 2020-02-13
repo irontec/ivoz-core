@@ -56,7 +56,11 @@ abstract class LoggableMigration extends AbstractMigration
                 ]
             );
 
-            $changelog = Changelog::fromEvent($event);
+            $changelog = Changelog::fromEvent(
+                $event,
+                $command
+            );
+
             $changelogData = $changelog->toDto()->toArray();
             unset($changelogData['command']);
             $changelogData['commandId'] = $command->getId();
