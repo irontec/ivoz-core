@@ -87,8 +87,11 @@ class CommandPersister
             ->clearEvents();
 
         foreach ($entityEvents as $event) {
-            $changeLog = Changelog::fromEvent($event);
-            $changeLog->setCommand($commandlog);
+            $changeLog = Changelog::fromEvent(
+                $event,
+                $commandlog
+            );
+
             $this->entityPersister->persist($changeLog);
 
             $data = json_encode($changeLog->getData());
