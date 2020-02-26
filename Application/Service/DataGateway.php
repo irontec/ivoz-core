@@ -98,6 +98,8 @@ class DataGateway
     {
         $repository = $this->getRepository($entityName);
 
+        $this->triggerEvent(__CLASS__, __FUNCTION__, func_get_args());
+
         return $repository
             ->{$method}(...$arguments);
     }
