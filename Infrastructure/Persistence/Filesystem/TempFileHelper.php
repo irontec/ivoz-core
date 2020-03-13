@@ -5,17 +5,37 @@ namespace Ivoz\Core\Infrastructure\Persistence\Filesystem;
 class TempFileHelper
 {
     /**
+     * @param string $content
+     * @param bool $rewind
      * @return resource|false
      */
-    public function createWithContent($content)
+    public function createWithContent(string $content, $rewind = true)
     {
-        $tmpfile = tmpfile();
+        $tmpFile = tmpfile();
         fwrite(
-            $tmpfile,
+            $tmpFile,
             $content
         );
-        fseek($tmpfile, 0);
 
-        return $tmpfile;
+        if ($rewind) {
+            fseek($tmpFile, 0);
+        }
+
+        return $tmpFile;
+    }
+
+    /**
+     * @param resource $tmpFile
+     * @param string $content
+     * @return resource
+     */
+    public function appendContent($tmpFile, string $content)
+    {
+        fwrite(
+            $tmpFile,
+            $content
+        );
+
+        return $tmpFile;
     }
 }

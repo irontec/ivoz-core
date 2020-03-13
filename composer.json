@@ -3,6 +3,7 @@
     "description": "Core library for ivozprovider",
     "license": "GPL-3.0-or-later",
     "minimum-stability": "dev",
+	"prefer-stable": true,
     "authors": [
         {
             "name": "Carlos Cruz",
@@ -17,7 +18,6 @@
             "email": "mikel@irontec.com"
         }
     ],
-    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "Ivoz\\Core\\": ""
