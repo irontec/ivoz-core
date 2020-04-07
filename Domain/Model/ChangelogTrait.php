@@ -2,6 +2,8 @@
 
 namespace Ivoz\Core\Domain\Model;
 
+use Ivoz\Core\Application\DataTransferObjectInterface;
+
 trait ChangelogTrait
 {
     /**
@@ -22,6 +24,7 @@ trait ChangelogTrait
 
     abstract public function getId();
     abstract protected function __toArray();
+    abstract public static function createDto($id = null);
 
     /**
      * @return bool
@@ -138,6 +141,18 @@ trait ChangelogTrait
             }
 
             $changes[$key] = $value;
+        }
+
+        /** @var DataTransferObjectInterface $dto */
+        $dto = static::createDto();
+        $sensitiveFields = $dto->getSensitiveFields();
+        foreach ($sensitiveFields as $sensitiveField) {
+
+            if (!isset($changes[$sensitiveField])) {
+                continue;
+            }
+
+            $changes[$sensitiveField] = '*****';
         }
 
         return $changes;
