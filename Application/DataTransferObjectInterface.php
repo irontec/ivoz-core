@@ -34,6 +34,8 @@ interface DataTransferObjectInterface
      */
     public static function getPropertyMap(string $context = '', string $role = null);
 
+    public function getSensitiveFields(): array;
+
     /**
      * @return array
      */

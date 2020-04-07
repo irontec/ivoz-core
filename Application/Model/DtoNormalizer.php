@@ -4,6 +4,9 @@ namespace Ivoz\Core\Application\Model;
 
 trait DtoNormalizer
 {
+    /** @var string[]  */
+    protected $sensitiveFields = [];
+
     /**
      * @return array
      */
@@ -13,6 +16,11 @@ trait DtoNormalizer
      * @return array
      */
     abstract public static function getPropertyMap(string $context = '');
+
+    public function getSensitiveFields(): array
+    {
+        return $this->sensitiveFields;
+    }
 
     /**
      * @inheritdoc
