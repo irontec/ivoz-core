@@ -10,6 +10,7 @@ use Ivoz\Core\Application\DataTransferObjectInterface;
 use Ivoz\Core\Application\Service\Assembler\DtoAssembler;
 use Ivoz\Core\Domain\Model\EntityInterface;
 use Ivoz\Core\Infrastructure\Domain\Service\DoctrineEntityPersister;
+use Doctrine\ORM\UnitOfWork;
 
 /**
  * Entity service facade
@@ -167,6 +168,14 @@ class EntityTools
         $this
             ->entityPersister
             ->removeFromArray($entities);
+    }
+
+    public function isScheduledForRemoval(EntityInterface $entity): bool
+    {
+        $unitOfWork = $this->em->getUnitOfWork();
+        $entityState = $unitOfWork->getEntityState($entity);
+
+        return $entityState === UnitOfWork::STATE_REMOVED;
     }
 
     /**
