@@ -52,6 +52,10 @@ class CarrierBalanceService extends AbstractBalanceService implements CarrierBal
             $balanceSum += $this->balanceReducer($balance);
         }
 
+        if (!array_key_exists($carrierId, $balanceSum)) {
+           throw new \Exception('Balance not found');
+        }
+
         return $balanceSum[$carrierId];
     }
 

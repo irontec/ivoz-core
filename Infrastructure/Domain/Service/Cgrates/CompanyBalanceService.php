@@ -59,6 +59,10 @@ class CompanyBalanceService extends AbstractBalanceService implements CompanyBal
             $balanceSum += $this->balanceReducer($balance);
         }
 
+        if (!array_key_exists($companyId, $balanceSum)) {
+            throw new \Exception('Balance not found');
+        }
+
         return $balanceSum[$companyId];
     }
 
