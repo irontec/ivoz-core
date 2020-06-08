@@ -34,7 +34,10 @@ class TempFile
         $this->previousFilePath = $previousFilePath;
     }
 
-    public function getTmpPath(): string
+    /**
+     * @return string | null
+     */
+    public function getTmpPath()
     {
         return $this->tmpPath;
     }
