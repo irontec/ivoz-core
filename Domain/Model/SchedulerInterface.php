@@ -32,7 +32,12 @@ interface SchedulerInterface extends EntityInterface
     /**
      * Get nextExecution
      *
-     * @return \DateTime
+     * @return \DateTime | null
      */
     public function getNextExecution();
+
+    /**
+     * @return \DateTimeZone
+     */
+    public function getSchedulerDateTimeZone();
 }
