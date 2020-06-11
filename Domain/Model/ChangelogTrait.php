@@ -29,7 +29,7 @@ trait ChangelogTrait
     /**
      * @return bool
      */
-    public function isNew()
+    public function isNew(): bool
     {
         return !$this->isPersisted();
     }
@@ -37,7 +37,15 @@ trait ChangelogTrait
     /**
      * @return bool
      */
-    public function isPersisted()
+    public function isInitialized(): bool
+    {
+        return !empty($this->_initialValues);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPersisted(): bool
     {
         return $this->isPersisted;
     }
@@ -53,7 +61,7 @@ trait ChangelogTrait
     /**
      * @return bool
      */
-    public function hasBeenDeleted()
+    public function hasBeenDeleted(): bool
     {
         $id = $this->getId();
         if ($id !== null) {
@@ -90,7 +98,7 @@ trait ChangelogTrait
      * @return bool
      * @throws \Exception
      */
-    public function hasChanged($dbFieldName)
+    public function hasChanged($dbFieldName): bool
     {
         if (!array_key_exists($dbFieldName, $this->_initialValues)) {
             throw new \Exception($dbFieldName . ' field was not found');
@@ -161,7 +169,7 @@ trait ChangelogTrait
     /**
      * @return string[]
      */
-    public function getChangedFields()
+    public function getChangedFields(): array
     {
         $changes = $this->getChangeSet();
 
