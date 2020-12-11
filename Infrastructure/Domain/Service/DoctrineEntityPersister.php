@@ -321,7 +321,7 @@ class DoctrineEntityPersister implements EntityPersisterInterface
             foreach ($associations as $field => $association) {
                 $isDeleteCascade =
                     isset($association['joinColumns'])
-                    && $association['joinColumns'][0]['onDelete'] === 'cascade';
+                    && strtolower($association['joinColumns'][0]['onDelete']) === 'cascade';
 
                 if (!$isDeleteCascade) {
                     continue;
