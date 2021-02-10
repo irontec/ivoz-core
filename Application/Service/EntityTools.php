@@ -9,7 +9,7 @@ use Doctrine\ORM\PessimisticLockException;
 use Ivoz\Core\Application\DataTransferObjectInterface;
 use Ivoz\Core\Application\Service\Assembler\DtoAssembler;
 use Ivoz\Core\Domain\Model\EntityInterface;
-use Ivoz\Core\Infrastructure\Domain\Service\DoctrineEntityPersister;
+use Ivoz\Core\Domain\Service\EntityPersisterInterface;
 use Doctrine\ORM\UnitOfWork;
 
 /**
@@ -18,36 +18,24 @@ use Doctrine\ORM\UnitOfWork;
  */
 class EntityTools
 {
-    /**
-     * @var EntityManager
-     */
     private $em;
-
-    /**
-     * @var DoctrineEntityPersister
-     */
     private $entityPersister;
-
-    /**
-     * @var DtoAssembler
-     */
     private $dtoAssembler;
-
-    /**
-     * @var UpdateEntityFromDTO
-     */
+    private $entityFromDto;
     private $entityUpdater;
 
     public function __construct(
         EntityManager $entityManager,
-        DoctrineEntityPersister $entityPersister,
+        EntityPersisterInterface $entityPersister,
         DtoAssembler $dtoAssembler,
-        UpdateEntityFromDTO $entityUpdater
+        CreateEntityFromDto $createEntityFromDto,
+        UpdateEntityFromDto $entityUpdater
     ) {
         $this->em = $entityManager;
 
         $this->entityPersister = $entityPersister;
         $this->dtoAssembler = $dtoAssembler;
+        $this->entityFromDto = $createEntityFromDto;
         $this->entityUpdater = $entityUpdater;
     }
 
@@ -65,11 +53,20 @@ class EntityTools
             ->getRepository($fqdn);
     }
 
-    public function entityToDto(EntityInterface $entity)
+    public function entityToDto(EntityInterface $entity): DataTransferObjectInterface
     {
         return $this
             ->dtoAssembler
             ->toDto($entity);
+    }
+
+    public function dtoToEntity(DataTransferObjectInterface $dto): EntityInterface
+    {
+        return $this
+            ->entityFromDto
+            ->execute(
+                $dto
+            );
     }
 
     /**
@@ -102,6 +99,18 @@ class EntityTools
             ->persist(
                 $entity,
                 $dispatchImmediately
+            );
+    }
+
+    /**
+     * @param EntityInterface[] $entities
+     */
+    public function persistFromArray(array $entities)
+    {
+        $this
+            ->entityPersister
+            ->persistFromArray(
+                $entities
             );
     }
 

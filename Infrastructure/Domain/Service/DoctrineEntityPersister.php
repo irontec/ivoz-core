@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\UnitOfWork;
 use Ivoz\Core\Application\DataTransferObjectInterface;
 use Ivoz\Core\Application\Helper\EntityClassHelper;
-use Ivoz\Core\Application\Service\CreateEntityFromDTO;
-use Ivoz\Core\Application\Service\UpdateEntityFromDTO;
+use Ivoz\Core\Application\Service\CreateEntityFromDto;
+use Ivoz\Core\Application\Service\UpdateEntityFromDto;
 use Ivoz\Core\Domain\Model\EntityInterface;
 use Ivoz\Core\Domain\Service\EntityPersisterInterface;
 use Ivoz\Core\Infrastructure\Persistence\Doctrine\Events as CustomEvents;
@@ -41,12 +41,12 @@ class DoctrineEntityPersister implements EntityPersisterInterface
     protected $orphanAccesor;
 
     /**
-     * @var CreateEntityFromDTO
+     * @var CreateEntityFromDto
      */
     protected $createEntityFromDto;
 
     /**
-     * @var UpdateEntityFromDTO
+     * @var UpdateEntityFromDto
      */
     protected $entityUpdater;
 
@@ -67,8 +67,8 @@ class DoctrineEntityPersister implements EntityPersisterInterface
 
     public function __construct(
         EntityManagerInterface $em,
-        CreateEntityFromDTO $createEntityFromDTO,
-        UpdateEntityFromDTO $entityUpdater,
+        CreateEntityFromDto $createEntityFromDto,
+        UpdateEntityFromDto $entityUpdater,
         array $softDeleteMap
     ) {
         $this->em = $em;
@@ -81,7 +81,7 @@ class DoctrineEntityPersister implements EntityPersisterInterface
         $this->orphanAccesor = $unitOfWorkRef->getProperty('orphanRemovals');
         $this->orphanAccesor->setAccessible(true);
 
-        $this->createEntityFromDto = $createEntityFromDTO;
+        $this->createEntityFromDto = $createEntityFromDto;
         $this->entityUpdater = $entityUpdater;
         $this->softDeleteMap = $softDeleteMap;
     }
@@ -112,11 +112,9 @@ class DoctrineEntityPersister implements EntityPersisterInterface
         }
 
         if (is_null($entity)) {
-            $entityClass = substr(get_class($dto), 0, -3);
-
             $entity = $this
                 ->createEntityFromDto
-                ->execute($entityClass, $dto);
+                ->execute($dto);
         } else {
             $this->entityUpdater->execute($entity, $dto);
         }
@@ -171,6 +169,17 @@ class DoctrineEntityPersister implements EntityPersisterInterface
         };
 
         $this->transactional($entity, $transaction);
+    }
+
+    public function persistFromArray(array $entities)
+    {
+        $transaction = function () use ($entities) {
+            foreach ($entities as $entity) {
+                $this->persist($entity);
+            }
+        };
+
+        $this->transactional($entities[0], $transaction);
     }
 
     /**
