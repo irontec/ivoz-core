@@ -9,6 +9,7 @@ class Lock implements MutexInterface
 {
     private $sentinel;
     private $logger;
+    private $dbIndex;
 
     /** @var \Redis */
     private $redisMaster;
@@ -18,10 +19,12 @@ class Lock implements MutexInterface
 
     public function __construct(
         Sentinel $sentinel,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        int $dbIndex = 1
     ) {
         $this->sentinel = $sentinel;
         $this->logger = $logger;
+        $this->dbIndex = $dbIndex;
     }
 
     /**
@@ -38,7 +41,7 @@ class Lock implements MutexInterface
             )
         );
 
-        $redisMasterConf = $this->sentinel->getRedisMasterConfig();
+        $redisMasterConf = $this->sentinel->resolveMaster();
 
         if ($this->redisMaster) {
             $this->redisMaster->close();
@@ -53,6 +56,8 @@ class Lock implements MutexInterface
             $redisMasterConf->getHost(),
             $redisMasterConf->getPort()
         );
+
+        $this->redisMaster->select($this->dbIndex);
 
         do {
             $lockAcquired = $this
@@ -107,7 +112,7 @@ class Lock implements MutexInterface
             ->redisMaster
             ->get($this->lockKey);
 
-        if ($value !== $this->lockRandomValue) {
+        if ($value !== (string) $this->lockRandomValue) {
             return;
         }
 

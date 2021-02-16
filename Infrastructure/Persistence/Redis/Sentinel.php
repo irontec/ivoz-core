@@ -71,11 +71,6 @@ class Sentinel
         return $this->master;
     }
 
-    public function getRedisMasterConfig(): RedisConf
-    {
-        return $this->master;
-    }
-
     private function getRedisMasterOrThrowException(RedisConf $config): RedisConf
     {
         $sentinel = new \RedisSentinel(
