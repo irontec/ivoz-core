@@ -78,7 +78,6 @@ class Sentinel
 
     private function getRedisMasterOrThrowException(RedisConf $config): RedisConf
     {
-        // Swoole does not have sentinel support yet
         $sentinel = new \RedisSentinel(
             $config->getHost(),
             $config->getPort()
