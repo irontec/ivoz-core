@@ -2,7 +2,7 @@
 
 namespace Ivoz\Core\Application;
 
-interface MutextInterface
+interface MutexInterface
 {
     /**
      * @param string $lockKey

@@ -2,10 +2,10 @@
 
 namespace Ivoz\Core\Infrastructure\Persistence\Redis;
 
-use Ivoz\Core\Application\MutextInterface;
+use Ivoz\Core\Application\MutexInterface;
 use Psr\Log\LoggerInterface;
 
-class Lock implements MutextInterface
+class Lock implements MutexInterface
 {
     private $sentinel;
     private $logger;
