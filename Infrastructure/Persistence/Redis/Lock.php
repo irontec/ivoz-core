@@ -72,21 +72,17 @@ class Lock implements MutexInterface
                 );
 
             if (! $lockAcquired) {
-                $ttl = $this
-                    ->redisMaster
-                    ->ttl($this->lockKey);
 
-                $ttl = max($ttl, 1);
-
+                $retryIn = 5;
                 $this->logger->debug(
                     sprintf(
                         'Retry to create a redis lock %s in %d seconds',
                         $lockKey,
-                        $ttl
+                        $retryIn
                     )
                 );
 
-                sleep($ttl);
+                sleep($retryIn);
             }
 
         } while (! $lockAcquired);
