@@ -60,8 +60,21 @@ class EntityTools
             ->toDto($entity);
     }
 
-    public function dtoToEntity(DataTransferObjectInterface $dto): EntityInterface
-    {
+    public function dtoToEntity(
+        DataTransferObjectInterface $dto,
+        EntityInterface $entity = null
+    ): EntityInterface {
+
+        if ($entity) {
+
+            $this->entityUpdater->execute(
+                $entity,
+                $dto
+            );
+
+            return $entity;
+        }
+
         return $this
             ->entityFromDto
             ->execute(
