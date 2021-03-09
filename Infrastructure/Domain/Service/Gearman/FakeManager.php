@@ -8,8 +8,9 @@ class FakeManager extends Manager
     {
         return new class extends \GearmanClient
         {
-            public function doBackground($function_name, $workload, $unique = null)
+            public function doBackground(string $function, string $workload, ?string $unique = NULL): string
             {
+                return '';
             }
         };
     }
