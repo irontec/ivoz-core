@@ -24,7 +24,7 @@ class LifecycleServiceHelper
 
         $prefix = $classSegments[1];
         $entityName = end($classSegments);
-        $snakeCaseEntity = Inflector::tableize($entityName);
+        $snakeCaseEntity = strtolower(preg_replace('~(?<=\\w)([A-Z])~', '_$1', $entityName));
         $serviceName = $prefix . '.lifecycle.' . $snakeCaseEntity . '.' . $event;
 
         return strtolower($serviceName);

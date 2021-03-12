@@ -4,7 +4,7 @@ namespace Ivoz\Core\Infrastructure\Persistence\Doctrine\Hydration;
 
 use Doctrine\ORM\Internal\Hydration\ObjectHydrator as DoctrineObjectHydrator;
 use Ivoz\Core\Infrastructure\Persistence\Doctrine\Events as IvozEvents;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 
 class ObjectHydrator extends DoctrineObjectHydrator

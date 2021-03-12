@@ -26,7 +26,7 @@
     "require": {
         "php": ">=7.4",
         "beberlei/assert": "2.9.*",
-        "doctrine/orm": "^2.5",
+        "doctrine/orm": "^2.8",
         "graze/guzzle-jsonrpc": "3.2.*",
         "guzzlehttp/guzzle": "^6.3",
         "lexik/jwt-authentication-bundle": "^2.5",

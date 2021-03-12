@@ -2,6 +2,7 @@
 
 namespace Ivoz\Core\Domain\Service;
 
+use Ivoz\Core\Domain\Assert\Assertion;
 use Ivoz\Core\Domain\Model\EntityInterface;
 
 class CommonLifecycleServiceCollection implements LifecycleServiceCollectionInterface
@@ -27,11 +28,9 @@ class CommonLifecycleServiceCollection implements LifecycleServiceCollectionInte
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function addService(string $event, CommonLifecycleEventHandlerInterface $service)
+    protected function addService(string $event, $service): void
     {
+        Assertion::isInstanceOf($service, CommonLifecycleEventHandlerInterface::class);
         $this->services[$event][] = $service;
     }
 
