@@ -12,6 +12,10 @@ class UtcDateTimeType extends DateTimeType
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
+        if (is_string($value)) {
+            return $value;
+        }
+
         if ($value instanceof \DateTime) {
             $value->setTimezone(
                 new \DateTimeZone('UTC')
