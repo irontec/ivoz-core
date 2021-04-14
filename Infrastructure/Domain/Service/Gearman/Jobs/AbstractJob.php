@@ -79,7 +79,7 @@ abstract class AbstractJob
      *
      * @return void
      */
-    public function send()
+    public function send(): void
     {
         $this->manager::setOptions($this->settings);
 

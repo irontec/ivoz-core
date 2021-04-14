@@ -167,6 +167,8 @@ class DoctrineEventSubscriber implements EventSubscriber
                 $this->flushedEntities[] = $entity;
             }
         }
+
+        $this->flushedEntities = array_unique($this->flushedEntities);
     }
 
     /**

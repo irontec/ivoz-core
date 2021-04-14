@@ -27,40 +27,29 @@ trait ChangelogTrait
     abstract public static function createDto($id = null);
 
     /**
-     * @return bool
+     * TRUE on new entities until transaction is closed
+     * always false for ON_COMMIT lifecycle services
      */
     public function isNew(): bool
     {
         return !$this->isPersisted();
     }
 
-    /**
-     * @return bool
-     */
     public function isInitialized(): bool
     {
         return !empty($this->_initialValues);
     }
 
-    /**
-     * @return bool
-     */
     public function isPersisted(): bool
     {
         return $this->isPersisted;
     }
 
-    /**
-     * @return void
-     */
     public function markAsPersisted()
     {
         $this->isPersisted = true;
     }
 
-    /**
-     * @return bool
-     */
     public function hasBeenDeleted(): bool
     {
         $id = $this->getId();
