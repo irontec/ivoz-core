@@ -168,7 +168,17 @@ class DoctrineEventSubscriber implements EventSubscriber
             }
         }
 
-        $this->flushedEntities = array_unique($this->flushedEntities);
+        $uniqueObjectIds = array_unique(
+            array_map('spl_object_id', $this->flushedEntities)
+        );
+
+        foreach ($this->flushedEntities as $key => $entity) {
+            if (array_key_exists($key, $uniqueObjectIds)) {
+                continue;
+            }
+
+            unset($this->flushedEntities[$key]);
+        }
     }
 
     /**
