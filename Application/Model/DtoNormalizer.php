@@ -89,6 +89,10 @@ trait DtoNormalizer
         foreach ($contextProperties as $key => $value) {
             if (is_array($value)) {
                 foreach ($value as $property) {
+                    if (!isset($data[$key]) || !array_key_exists($property, $data[$key])) {
+                        continue;
+                    }
+
                     $setter = 'set' . ucfirst($key) . ucfirst($property);
                     $dataPath = [
                         $key,
