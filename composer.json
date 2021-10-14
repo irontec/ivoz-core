@@ -30,7 +30,7 @@
         "graze/guzzle-jsonrpc": "3.2.*",
         "guzzlehttp/guzzle": "^6.3",
         "lexik/jwt-authentication-bundle": "^2.5",
-        "ramsey/uuid": "^3.7",
+        "ramsey/uuid": "^4.2",
         "symfony/expression-language": "^5.1",
         "symfony/finder": "^5.1",
         "symfony/http-foundation": "^5.1",
