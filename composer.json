@@ -24,17 +24,17 @@
         }
     },
     "require": {
-        "php": ">=7.4",
+        "php": ">=7.0.19",
         "beberlei/assert": "2.9.*",
         "doctrine/orm": "^2.5",
         "graze/guzzle-jsonrpc": "3.2.*",
         "guzzlehttp/guzzle": "^6.3",
         "lexik/jwt-authentication-bundle": "^2.5",
         "ramsey/uuid": "^3.7",
-        "symfony/expression-language": "^5.1",
-        "symfony/finder": "^5.1",
-        "symfony/http-foundation": "^5.1",
-        "symfony/serializer": "^5.1"
+        "symfony/expression-language": "3.4.*",
+        "symfony/finder": "3.4.*",
+        "symfony/http-foundation": "3.4.*",
+        "symfony/serializer": "3.4.*"
     },
     "require-dev": {
     }

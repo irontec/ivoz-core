@@ -7,20 +7,26 @@ use Ivoz\Core\Domain\Service\TempFile;
 trait TempFileContainnerTrait
 {
     /**
-     * @var \Ivoz\Core\Domain\Service\TempFile[]
+     * @var TempFile[]
      */
     protected $tmpFiles = [];
 
     /**
+     * @param string $fldName
+     * @param \Ivoz\Core\Domain\Service\TempFile $file
+     *
      * @return void
      */
-    public function addTmpFile(string $fldName, TempFile $file)
+    public function addTmpFile($fldName, TempFile $file)
     {
         $this->tmpFiles[$fldName]  = $file;
     }
 
     /**
+     * @param \Ivoz\Core\Domain\Service\TempFile $file
+     *
      * @throws \Exception
+     *
      * @return void
      */
     public function removeTmpFile(TempFile $file)

@@ -12,9 +12,14 @@ interface FileContainerInterface
         self::UPDALOADABLE_FILE
     ];
 
-    public function addTmpFile(string $fldName, TempFile $file);
+    /**
+     * @param string $fldName
+     * @param \Ivoz\Core\Domain\Service\TempFile $file
+     */
+    public function addTmpFile($fldName, TempFile $file);
 
     /**
+     * @param \Ivoz\Core\Domain\Service\TempFile $file
      * @throws \Exception
      */
     public function removeTmpFile(TempFile $file);

@@ -2,7 +2,7 @@
 
 namespace Ivoz\Core\Infrastructure\Persistence\Doctrine;
 
-use Doctrine\Migrations\AbstractMigration;;
+use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 use Ivoz\Core\Application\Event\CommandWasExecuted;
 use Ivoz\Core\Domain\Event\EntityWasUpdated;
@@ -13,13 +13,13 @@ abstract class LoggableMigration extends AbstractMigration
 {
     private $queries = [];
 
-    public function postUp(Schema $schema): void
+    public function postUp(Schema $schema)
     {
         $this->logChanges('up');
         parent::postUp(...func_get_args());
     }
 
-    public function postDown(Schema $schema): void
+    public function postDown(Schema $schema)
     {
         $this->logChanges('down');
         parent::postDown(...func_get_args());
@@ -111,7 +111,7 @@ abstract class LoggableMigration extends AbstractMigration
         return $commandQuery;
     }
 
-    protected function addSql($sql, array $params = [], array $types = []): void
+    protected function addSql($sql, array $params = [], array $types = [])
     {
         $this->queries[] = $sql;
         parent::addSql(...func_get_args());
