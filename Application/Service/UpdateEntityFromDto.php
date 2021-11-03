@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mikel
- * Date: 11/12/17
- * Time: 10:52
- */
 
 namespace Ivoz\Core\Application\Service;
 
@@ -13,9 +7,9 @@ use Ivoz\Core\Application\Service\Assembler\EntityAssembler;
 use Ivoz\Core\Domain\Model\EntityInterface;
 
 /**
- * @deprecated
+ * @internal
  */
-class CreateEntityFromDTO
+class UpdateEntityFromDto
 {
     /**
      * @var EntityAssembler
@@ -29,18 +23,16 @@ class CreateEntityFromDTO
     }
 
     /**
-     * @param string $entityName
-     * @param DataTransferObjectInterface $dto
-     * @return EntityInterface
+     * @return void
      */
-    public function execute($entityName, DataTransferObjectInterface $dto)
+    public function execute(EntityInterface $entity, DataTransferObjectInterface $dto)
     {
         //Ensure that we don't propagate applied changes
         $dto = clone $dto;
 
-        return $this->entityAssembler->createFromDto(
+        $this->entityAssembler->updateFromDto(
             $dto,
-            $entityName
+            $entity
         );
     }
 }

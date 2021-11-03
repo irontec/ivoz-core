@@ -30,7 +30,7 @@ trait DtoNormalizer
         $response = $this->toArray(true);
         $contextProperties = static::getPropertyMap($context, $role);
 
-        return array_filter(
+        $response = array_filter(
             $response,
             function ($key) use ($contextProperties) {
                 return
@@ -39,6 +39,29 @@ trait DtoNormalizer
             },
             ARRAY_FILTER_USE_KEY
         );
+
+        foreach ($response as $key => $val) {
+
+            $isEmbedded = is_array($val)/* || is_object($val)*/;
+            if (!$isEmbedded) {
+                continue;
+            }
+
+            if (!isset($contextProperties[$key])) {
+                continue;
+            }
+
+            $validSubKeys = $contextProperties[$key];
+            $response[$key] = array_filter(
+                $val,
+                function ($key) use ($validSubKeys) {
+                    return in_array($key, $validSubKeys);
+                },
+                ARRAY_FILTER_USE_KEY
+            );
+        }
+
+        return $response;
     }
 
     /**
@@ -62,6 +85,10 @@ trait DtoNormalizer
         foreach ($contextProperties as $key => $value) {
             if (is_array($value)) {
                 foreach ($value as $property) {
+                    if (!isset($data[$key]) || !array_key_exists($property, $data[$key])) {
+                        continue;
+                    }
+
                     $setter = 'set' . ucfirst($key) . ucfirst($property);
                     $dataPath = [
                         $key,
