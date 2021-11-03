@@ -21,6 +21,11 @@ class FakeRedisMasterFactory extends RedisMasterFactory
             public function rPush($key, ...$value1) {}
 
             public function blPop($key, $timeout_or_key, ...$extra_args) {}
+
+            public function scan(&$iterator, $pattern = null, $count = 0)
+            {
+                return [0, ['something']];
+            }
         };
 
         return new $fakeRedis;
