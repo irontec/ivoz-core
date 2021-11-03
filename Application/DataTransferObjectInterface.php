@@ -18,7 +18,7 @@ interface DataTransferObjectInterface
         self::CONTEXT_DETAILED_COLLECTION
     ];
 
-    public function setId(?int $id = null);
+    public function setId($id = null);
     public function getId();
 
     /**
