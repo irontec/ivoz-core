@@ -32,12 +32,16 @@ trait DtoNormalizer
 
         $response = array_filter(
             $response,
-            function ($key) use ($contextProperties) {
+            function ($value, $key) use ($contextProperties) {
+
+                $isEmbedded = is_array($value) || is_object($value);
+
                 return
                     in_array($key, $contextProperties, true)
-                    || array_key_exists($key, $contextProperties);
+                    || (!$isEmbedded && in_array($value, $contextProperties, true))
+                    || ($isEmbedded && array_key_exists($key, $contextProperties));
             },
-            ARRAY_FILTER_USE_KEY
+            ARRAY_FILTER_USE_BOTH
         );
 
         foreach ($response as $key => $val) {
