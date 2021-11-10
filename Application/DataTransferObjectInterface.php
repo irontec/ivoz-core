@@ -20,26 +20,9 @@ interface DataTransferObjectInterface
 
     public function setId($id);
     public function getId();
-
-    /**
-     * @return array
-     */
-    public function normalize(string $context, string $role = '');
-
-    /**
-     * @return void
-     */
-    public function denormalize(array $data, string $context, string $role = '');
-
-    /**
-     * @return array
-     */
-    public static function getPropertyMap(string $context = '', string $role = null);
-
+    public function normalize(string $context, string $role = ''): array;
+    public function denormalize(array $data, string $context, string $role = ''): void;
+    public static function getPropertyMap(string $context = '', string $role = null): array;
     public function getSensitiveFields(): array;
-
-    /**
-     * @return array
-     */
-    public function toArray($hideSensitiveData = false);
+    public function toArray(bool $hideSensitiveData = false): array;
 }

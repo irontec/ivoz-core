@@ -24,7 +24,7 @@ trait ChangelogTrait
 
     abstract public function getId();
     abstract protected function __toArray();
-    abstract public static function createDto($id = null);
+    abstract public static function createDto(string|int $id = null);
 
     /**
      * TRUE on new entities until transaction is closed
@@ -45,7 +45,7 @@ trait ChangelogTrait
         return $this->isPersisted;
     }
 
-    public function markAsPersisted()
+    public function markAsPersisted(): void
     {
         $this->isPersisted = true;
     }
@@ -63,11 +63,7 @@ trait ChangelogTrait
         return $hasInitialValue;
     }
 
-    /**
-     * @return void
-     * @throws \Exception
-     */
-    public function initChangelog()
+    public function initChangelog(): void
     {
         $values = $this->__toArray();
         if (!$this->getId()) {
@@ -83,11 +79,9 @@ trait ChangelogTrait
     }
 
     /**
-     * @param string $dbFieldName
-     * @return bool
      * @throws \Exception
      */
-    public function hasChanged($dbFieldName): bool
+    public function hasChanged(string $dbFieldName): bool
     {
         if (!array_key_exists($dbFieldName, $this->_initialValues)) {
             throw new \Exception($dbFieldName . ' field was not found');
@@ -98,11 +92,9 @@ trait ChangelogTrait
     }
 
     /**
-     * @param string $dbFieldName
-     * @return mixed
      * @throws \Exception
      */
-    public function getInitialValue($dbFieldName)
+    public function getInitialValue(string $dbFieldName): mixed
     {
         if (!array_key_exists($dbFieldName, $this->_initialValues)) {
             throw new \Exception($dbFieldName . ' field was not found');
@@ -114,7 +106,7 @@ trait ChangelogTrait
     /**
      * @return array
      */
-    protected function getChangeSet()
+    protected function getChangeSet(): array
     {
         $changes = [];
         $currentValues = $this->__toArray();

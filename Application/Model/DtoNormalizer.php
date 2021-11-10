@@ -10,12 +10,12 @@ trait DtoNormalizer
     /**
      * @return array
      */
-    abstract public function toArray($hideSensitiveData = false);
+    abstract public function toArray(bool $hideSensitiveData = false): array;
 
     /**
      * @return array
      */
-    abstract public static function getPropertyMap(string $context = '');
+    abstract public static function getPropertyMap(string $context = ''): array;
 
     public function getSensitiveFields(): array
     {
@@ -25,7 +25,7 @@ trait DtoNormalizer
     /**
      * @inheritdoc
      */
-    public function normalize(string $context, string $role = '')
+    public function normalize(string $context, string $role = ''): array
     {
         $response = $this->toArray(true);
         $contextProperties = static::getPropertyMap($context, $role);
@@ -93,7 +93,7 @@ trait DtoNormalizer
     /**
      * @inheritdoc
      */
-    public function denormalize(array $data, string $context, string $role = '')
+    public function denormalize(array $data, string $context, string $role = ''): void
     {
         $contextProperties = static::getPropertyMap($context, $role);
 
