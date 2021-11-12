@@ -11,6 +11,8 @@ class ObjectHydrator extends DoctrineObjectHydrator
 {
     protected $loadedEntities = [];
 
+    private static int $recursionLevel = 0;
+
     /**
      * {@inheritdoc}
      */
@@ -22,6 +24,7 @@ class ObjectHydrator extends DoctrineObjectHydrator
             $this
         );
 
+        self::$recursionLevel++;
         $response = parent::hydrateAll(...func_get_args());
 
         $evm->removeEventListener(
@@ -52,6 +55,14 @@ class ObjectHydrator extends DoctrineObjectHydrator
 
         $this->loadedEntities = [];
         return $response;
+    }
+
+    protected function cleanup()
+    {
+        self::$recursionLevel--;
+        if (self::$recursionLevel === 0) {
+            parent::cleanup();
+        }
     }
 
     public function hydrateRow()
