@@ -18,7 +18,7 @@ interface DataTransferObjectInterface
         self::CONTEXT_DETAILED_COLLECTION
     ];
 
-    public function setId($id);
+    public function setId(int|string $id);
     public function getId();
     public function normalize(string $context, string $role = ''): array;
     public function denormalize(array $data, string $context, string $role = ''): void;

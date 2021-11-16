@@ -24,6 +24,8 @@ class DoctrineForeignKeyTransformer implements ForeignKeyTransformerInterface
     /**
      * @param mixed $element
      * @param bool $persist
+     *
+     * @return EntityInterface
      */
     public function transform($element, $persist = true)
     {
@@ -66,15 +68,11 @@ class DoctrineForeignKeyTransformer implements ForeignKeyTransformerInterface
     }
 
     /**
-     * @param array | null $elements
-     * @return ArrayCollection | null
+     * @param array $elements
+     * @return ArrayCollection<array-key, EntityInterface>
      */
-    public function transformCollection(array $elements = null)
+    public function transformCollection(array $elements)
     {
-        if (is_null($elements)) {
-            return null;
-        }
-
         if (empty($elements)) {
             return new ArrayCollection();
         }

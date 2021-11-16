@@ -14,15 +14,33 @@ interface CommandEventInterface extends DomainEventInterface
         array $agent
     );
 
+    /**
+     * @return string
+     */
     public function getId();
 
+    /**
+     * @return string
+     */
     public function getRequestId();
 
+    /**
+     * @return string
+     */
     public function getService();
 
+    /**
+     * @return string
+     */
     public function getMethod();
 
+    /**
+     * @return array
+     */
     public function getArguments();
 
+    /**
+     * @return array
+     */
     public function getAgent();
 }

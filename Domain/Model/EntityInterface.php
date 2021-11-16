@@ -44,7 +44,7 @@ interface EntityInterface
      */
     public function getInitialValue(string $fieldName): mixed;
 
-    public static function createDto(int|string $id = null): DataTransferObjectInterface;
+    public static function createDto(int|string|null $id = null): DataTransferObjectInterface;
 
     /**
      * @todo move this into dto::fromEntity
