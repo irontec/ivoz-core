@@ -57,7 +57,7 @@ trait LifecycleServiceCollectionTrait
         }
     }
 
-    abstract protected function addService(string $event, $service);
+    abstract protected function addService(string $event, LifecycleEventHandlerInterface|DomainEventSubscriberInterface $service);
 
     /**
      * @return void
