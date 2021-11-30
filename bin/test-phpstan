@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+run_test () {
+    TARGET=$1
+    echo "=========================="
+    echo "ivoz-core"
+    echo "=========================="
+
+    ./vendor/bin/phpstan analyse \
+        --level 5 \
+        --ansi \
+        --no-progress \
+        --autoload-file ./vendor/autoload.php \
+        --configuration phpstan.neon \
+        ${TARGET} $2
+}
+
+PARENT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")/../" ; pwd -P )
+pushd $PARENT_PATH
+  run_test . $1
+popd
