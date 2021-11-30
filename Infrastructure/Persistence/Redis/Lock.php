@@ -11,7 +11,7 @@ class Lock implements MutexInterface
     private $logger;
     private $dbIndex;
 
-    /** @var \Redis */
+    /** @var ?\Redis */
     private $redisMaster;
 
     private $lockKey;

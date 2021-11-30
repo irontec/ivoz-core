@@ -127,9 +127,9 @@ class DomainServiceCompiler implements CompilerPassInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      *
-     * @psalm-return array<int, array-key>
+     * @psalm-return array<int, string>
      */
     protected function getLifecycleEventHandlerServices(): array
     {

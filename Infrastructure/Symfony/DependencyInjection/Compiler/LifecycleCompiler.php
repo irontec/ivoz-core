@@ -144,12 +144,8 @@ class LifecycleCompiler implements CompilerPassInterface
     {
         $services = $this->container->findTaggedServiceIds($tag);
 
-        /**
-         * @var Definition $a
-         * @var Definition $b
-         */
-        uasort($services, function ($a, $b) {
-            return $a[0]['priority'] > $b[0]['priority'];
+        uasort($services, function (array $a, array $b) {
+            return (int) ($a[0]['priority'] > $b[0]['priority']);
         });
 
         return array_keys($services);

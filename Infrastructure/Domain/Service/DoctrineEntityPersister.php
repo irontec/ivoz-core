@@ -161,6 +161,7 @@ class DoctrineEntityPersister implements EntityPersisterInterface
             }
 
             if (in_array($state, $singleComputationValidStates)) {
+                /** @phpstan-ignore-next-line  */
                 $this->em->flush($entity);
                 return;
             }

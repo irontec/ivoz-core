@@ -27,12 +27,15 @@ class EntityManager extends DoctrineEntityManager implements ToggleableBufferedQ
     private function setBufferedQuery(bool $enabled = true)
     {
         // https://www.php.net/manual/en/mysqlinfo.concepts.buffering.php
-
         (function () use ($enabled) {
+
             $this->connect();
-            $driverName = $this->_conn->getAttribute(\PDO::ATTR_DRIVER_NAME);
+
+            /** @var \Doctrine\DBAL\Driver\PDO\Connection $connection  */
+            $connection = $this->_conn;
+            $driverName = $connection->getAttribute(\PDO::ATTR_DRIVER_NAME);
             if ($driverName === 'mysql') {
-                $this->_conn->setAttribute(
+                $connection->setAttribute(
                     \PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,
                     $enabled
                 );
@@ -65,7 +68,7 @@ class EntityManager extends DoctrineEntityManager implements ToggleableBufferedQ
                 throw new \InvalidArgumentException("Invalid argument: " . $conn);
         }
 
-        return new static($conn, $config, $conn->getEventManager());
+        return new self($conn, $config, $conn->getEventManager());
     }
 
     /**

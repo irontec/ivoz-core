@@ -42,7 +42,7 @@ class Sentinel
     ) {
         $sentinelConfig = new SentinelConf($config);
 
-        return new static(
+        return new self(
             $sentinelConfig->get(),
             $logger
         );
@@ -97,7 +97,7 @@ class Sentinel
             $masterName
         );
 
-        if (empty($masters)) {
+        if (empty($master)) {
             throw new \RuntimeException(
                 'Unable to get redis master'
             );

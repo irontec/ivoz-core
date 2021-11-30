@@ -37,6 +37,7 @@ class ObjectHydrator extends DoctrineObjectHydrator
             && is_object($response[0]);
 
         if ($mustTriggerEvents) {
+            /** @var string $reponseClass */
             $reponseClass = get_class($response[0]);
             $foreignEntities = array_filter(
                 $this->loadedEntities,

@@ -120,7 +120,7 @@ class CommandPersister
     private function registerFallbackCommand(): CommandWasExecuted
     {
         $command = new CommandWasExecuted(
-            0,
+            '0',
             'Unregistered',
             'Unregistered',
             [],

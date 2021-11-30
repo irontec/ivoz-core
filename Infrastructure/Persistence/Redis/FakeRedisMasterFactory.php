@@ -14,13 +14,15 @@ class FakeRedisMasterFactory extends RedisMasterFactory
                 $reserved = null,
                 $retryInterval = 0,
                 $readTimeout = 0.0
-            ) {}
+            ) {
+                return false;
+            }
 
-            public function lPush($key, ...$value1) {}
+            public function lPush($key, ...$value1) { return false; }
 
-            public function rPush($key, ...$value1) {}
+            public function rPush($key, ...$value1) { return false; }
 
-            public function blPop($key, $timeout_or_key, ...$extra_args) {}
+            public function blPop($key, $timeout_or_key, ...$extra_args) { return []; }
         };
 
         return new $fakeRedis;

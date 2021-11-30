@@ -28,7 +28,7 @@ abstract class LoggableMigration extends AbstractMigration
     private function logChanges(string $direction)
     {
         $event = new CommandWasExecuted(
-            0,
+            '0',
             get_class($this),
             $direction,
             [],

@@ -195,7 +195,7 @@ class DateTimeHelper
     protected static function getCurrentUtcDateTime(): \DateTime
     {
         return new \DateTime(
-            null,
+            'now',
             new \DateTimeZone('UTC')
         );
     }

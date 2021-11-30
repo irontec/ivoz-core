@@ -25,7 +25,7 @@ class DoctrineForeignKeyTransformer implements ForeignKeyTransformerInterface
      * @param mixed $element
      * @param bool $persist
      *
-     * @return EntityInterface
+     * @return ?EntityInterface
      */
     public function transform($element, $persist = true)
     {
