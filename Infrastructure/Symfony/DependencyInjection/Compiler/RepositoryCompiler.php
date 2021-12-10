@@ -4,7 +4,6 @@ namespace Ivoz\Core\Infrastructure\Symfony\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 
 class RepositoryCompiler implements CompilerPassInterface
 {
@@ -26,8 +25,6 @@ class RepositoryCompiler implements CompilerPassInterface
     }
 
     /**
-     * @param Definition[] $services
-     *
      * @return void
      */
     protected function setRepositoryAliases(array $services)
