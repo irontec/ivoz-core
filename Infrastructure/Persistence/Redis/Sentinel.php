@@ -6,6 +6,8 @@ use Psr\Log\LoggerInterface;
 
 class Sentinel
 {
+    const RESOLVE_RETRIES = 30;
+
     /** @var  LoggerInterface */
     protected $logger;
 
@@ -48,8 +50,9 @@ class Sentinel
         );
     }
 
-    public function resolveMaster(): RedisConf
+    public function resolveMaster(int $retries = self::RESOLVE_RETRIES): RedisConf
     {
+        $resolveErrors = false;
         for ($i = 0; $i < count($this->sentinels); $i++) {
             try {
                 $config = $this->sentinels[$i];
@@ -62,10 +65,16 @@ class Sentinel
                 break;
             } catch (\Exception $e) {
                 $this->logger->error(
-                    "ERROR: " . $e->getMessage()
+                    "ERROR: " . $e->getMessage() . ". " . $retries . " retries left"
                 );
+                $resolveErrors = true;
                 continue;
             }
+        }
+
+        if ($resolveErrors && $retries > 0) {
+            sleep(1);
+            return $this->resolveMaster($retries - 1);
         }
 
         return $this->master;
