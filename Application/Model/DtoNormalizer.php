@@ -56,6 +56,10 @@ trait DtoNormalizer
             }
 
             $validSubKeys = $contextProperties[$key];
+            if (!is_array($validSubKeys)) {
+                throw new \RuntimeException($key . ' context properties were expected to be array');
+            }
+
             $response[$key] = $this->filterResponseSubProperties(
                 $val,
                 $validSubKeys
@@ -67,6 +71,10 @@ trait DtoNormalizer
 
     private function filterResponseSubProperties(array $values, array $validSubKeys): array
     {
+        if (empty($validSubKeys)) {
+            return [];
+        }
+
         if (is_array($validSubKeys[0])) {
             $response = [];
             foreach($values as $k => $value) {
