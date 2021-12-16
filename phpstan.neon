@@ -1,0 +1,7 @@
+parameters:
+    excludePaths:
+        analyse:
+            - vendor
+    ignoreErrors:
+        - '#.*unknown class Ivoz\\Provider\\.*#'
+        - '#.*has invalid type Ivoz\\Provider\\.*#'
