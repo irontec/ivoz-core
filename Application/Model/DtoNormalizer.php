@@ -56,16 +56,36 @@ trait DtoNormalizer
             }
 
             $validSubKeys = $contextProperties[$key];
-            $response[$key] = array_filter(
+            $response[$key] = $this->filterResponseSubProperties(
                 $val,
-                function ($key) use ($validSubKeys) {
-                    return in_array($key, $validSubKeys);
-                },
-                ARRAY_FILTER_USE_KEY
+                $validSubKeys
             );
         }
 
         return $response;
+    }
+
+    private function filterResponseSubProperties(array $values, array $validSubKeys): array
+    {
+        if (is_array($validSubKeys[0])) {
+            $response = [];
+            foreach($values as $k => $value) {
+                $response[$k] = $this->filterResponseSubProperties(
+                    $value,
+                    $validSubKeys[0]
+                );
+            }
+
+            return $response;
+        }
+
+        return array_filter(
+            $values,
+            function ($key) use ($validSubKeys) {
+                return in_array($key, $validSubKeys);
+            },
+            ARRAY_FILTER_USE_KEY
+        );
     }
 
     /**
