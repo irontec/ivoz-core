@@ -158,6 +158,7 @@ class DataGateway
             ->createFromArguments($entityName, $criteria, $orderBy, $limit, $offset)
             ->getQuery();
 
+        $query->useQueryCache(false);
         $results = $query->getResult();
 
         $response = [];
@@ -194,6 +195,7 @@ class DataGateway
                 ->setFirstResult(($currentPage - 1) * $chunkSize);
 
             $query = $qb->getQuery();
+            $query->useQueryCache(false);
             $results = $query->getResult();
             $continue = count($results) === $chunkSize;
             $currentPage++;
@@ -250,6 +252,7 @@ class DataGateway
         $query = $queryBuilder
             ->getQuery();
 
+        $query->useQueryCache(false);
         return $query->getSingleScalarResult();
     }
 
