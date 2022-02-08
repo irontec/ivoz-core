@@ -44,6 +44,8 @@ class CommandPersister
             return;
         }
 
+        $entityChangeMap = [];
+
         $commandNum = $this
             ->commandEventSubscriber
             ->countEvents();
@@ -75,7 +77,7 @@ class CommandPersister
              * Command is null when first persisted entity comes from pre_persist event:
              * changelog will require to hit db twice
              */
-            $command = $this
+            $this
                 ->commandEventSubscriber
                 ->getLatest();
 
@@ -92,9 +94,32 @@ class CommandPersister
                 $commandlog
             );
 
+            $entity = $changeLog->getEntity() . '#' . $changeLog->getEntityId();
+            $prevEntityData = array_key_exists($entity, $entityChangeMap)
+                ? $entityChangeMap[$entity]
+                : [];
+
+            if (!isset($entityChangeMap[$entity])) {
+                $entityChangeMap[$entity] = [];
+            }
+
+            $currentEntityData = $changeLog->getData();
+            if (!is_array($currentEntityData)) {
+                $currentEntityData = [];
+            }
+            $dataDiff = array_diff(
+                $currentEntityData,
+                $prevEntityData
+            );
+            $entityChangeMap[$entity] = $currentEntityData;
+
+            if (count($dataDiff) !== count($currentEntityData)) {
+                $changeLog->replaceData($dataDiff);
+            }
+
             $this->entityPersister->persist($changeLog);
 
-            $data = json_encode($changeLog->getData());
+            $data = json_encode($dataDiff);
             if (strlen($data) > 140) {
                 $data = substr($data, 0, 140) . '...';
             }
