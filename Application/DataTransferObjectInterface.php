@@ -22,7 +22,13 @@ interface DataTransferObjectInterface
     public function getId();
     public function normalize(string $context, string $role = ''): array;
     public function denormalize(array $data, string $context, string $role = ''): void;
+    /**
+     * @return array<array-key, string | string[]>
+     */
     public static function getPropertyMap(string $context = '', string $role = null): array;
     public function getSensitiveFields(): array;
+    /**
+     * @return array<array-key, mixed>
+     */
     public function toArray(bool $hideSensitiveData = false): array;
 }
