@@ -24,7 +24,7 @@ trait ChangelogTrait
 
     abstract public function getId();
     abstract protected function __toArray();
-    abstract public static function createDto(string|int $id = null);
+    abstract public static function createDto(string|int $id = null): DataTransferObjectInterface;
 
     /**
      * TRUE on new entities until transaction is closed
