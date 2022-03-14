@@ -6,8 +6,8 @@ use Doctrine\Migrations\AbstractMigration;;
 use Doctrine\DBAL\Schema\Schema;
 use Ivoz\Core\Application\Event\CommandWasExecuted;
 use Ivoz\Core\Domain\Event\EntityWasUpdated;
-use Ivoz\Provider\Domain\Model\Changelog\Changelog;
-use Ivoz\Provider\Domain\Model\Commandlog\Commandlog;
+use Ivoz\Core\Domain\Model\Changelog\Changelog;
+use Ivoz\Core\Domain\Model\Commandlog\Commandlog;
 
 abstract class LoggableMigration extends AbstractMigration
 {

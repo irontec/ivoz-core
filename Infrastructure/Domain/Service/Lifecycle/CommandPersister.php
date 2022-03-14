@@ -6,8 +6,8 @@ use Ivoz\Core\Application\Event\CommandWasExecuted;
 use Ivoz\Core\Application\Service\CommandEventSubscriber;
 use Ivoz\Core\Domain\Service\EntityEventSubscriber;
 use Ivoz\Core\Domain\Service\EntityPersisterInterface;
-use Ivoz\Provider\Domain\Model\Changelog\Changelog;
-use Ivoz\Provider\Domain\Model\Commandlog\Commandlog;
+use Ivoz\Core\Domain\Model\Changelog\Changelog;
+use Ivoz\Core\Domain\Model\Commandlog\Commandlog;
 use Psr\Log\LoggerInterface;
 
 class CommandPersister
