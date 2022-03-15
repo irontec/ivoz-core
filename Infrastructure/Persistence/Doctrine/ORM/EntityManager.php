@@ -29,11 +29,10 @@ class EntityManager extends DoctrineEntityManager implements ToggleableBufferedQ
         // https://www.php.net/manual/en/mysqlinfo.concepts.buffering.php
         (function () use ($enabled) {
 
-            $this->connect();
-
-            /** @var \Doctrine\DBAL\Driver\PDO\Connection $connection  */
-            $connection = $this->_conn;
+            /** @var \PDO $connection */
+            $connection = $this->getNativeConnection();
             $driverName = $connection->getAttribute(\PDO::ATTR_DRIVER_NAME);
+
             if ($driverName === 'mysql') {
                 $connection->setAttribute(
                     \PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,

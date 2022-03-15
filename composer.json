@@ -27,7 +27,7 @@
         "php": ">=8.0",
         "beberlei/assert": "^3.0",
         "doctrine/orm": "^2.8",
-        "doctrine/dbal": "^2.12.1 || ^3.2",
+        "doctrine/dbal": "^3.2",
         "doctrine/doctrine-migrations-bundle": "^3.0.3",
         "graze/guzzle-jsonrpc": "3.2.*",
         "guzzlehttp/guzzle": "^6.3",

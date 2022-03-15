@@ -92,7 +92,7 @@ trait ChangelogTrait
     }
 
     /**
-     * @return array<string, mixed>
+     * @return mixed|array<string, mixed>
      * @throws \Exception
      */
     public function getInitialValue(string $dbFieldName): mixed
