@@ -2,7 +2,7 @@
 
 namespace Ivoz\Core\Infrastructure\Persistence\Doctrine\Service;
 
-use Doctrine\DBAL\Driver\PDOException;
+use Doctrine\DBAL\Driver\PDO\Exception as PDOException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Ivoz\Core\Domain\Service\CommonPersistErrorHandlerInterface;
 
@@ -34,7 +34,7 @@ class DuplicateEntryCommonErrorHandler implements CommonPersistErrorHandlerInter
             return;
         }
 
-        $isDuplicatedError = $pdoException->getErrorCode() === self::MYSQL_ERROR_DUPLICATE_ENTRY;
+        $isDuplicatedError = $pdoException->getCode() === self::MYSQL_ERROR_DUPLICATE_ENTRY;
 
         if ($isDuplicatedError) {
             throw new \DomainException(

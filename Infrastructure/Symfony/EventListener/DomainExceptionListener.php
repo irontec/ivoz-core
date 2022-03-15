@@ -25,9 +25,13 @@ class DomainExceptionListener
             return;
         }
 
+        $exceptionCode = $exception->getCode()
+            ? $exception->getCode()
+            : Response::HTTP_FAILED_DEPENDENCY;
+
         $event->setResponse(new Response(
             $exception->getMessage(),
-            $exception->getCode() ?? Response::HTTP_FAILED_DEPENDENCY,
+            $exceptionCode,
             [
                 'X-Content-Type-Options' => 'nosniff',
                 'X-Frame-Options' => 'deny',

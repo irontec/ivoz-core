@@ -5,3 +5,5 @@ parameters:
     ignoreErrors:
         - '#.*unknown class Ivoz\\Provider\\.*#'
         - '#.*has invalid type Ivoz\\Provider\\.*#'
+        - '#Unsafe usage of new static\(\)#'
+        - '#.*has invalid type Doctrine\\DBAL\\Driver\\ResultStatement#'
