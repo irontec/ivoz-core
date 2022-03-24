@@ -42,7 +42,7 @@ trait DtoNormalizer
 
         foreach ($response as $key => $val) {
 
-            $isEmbedded = is_array($val)/* || is_object($val)*/;
+            $isEmbedded = is_array($val);
             if (!$isEmbedded) {
                 continue;
             }
