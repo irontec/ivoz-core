@@ -7,16 +7,6 @@ use Ivoz\Core\Domain\Service\DomainEventPublisher;
 
 trait RegisterCommandTrait
 {
-    /**
-     * @var DomainEventPublisher
-     */
-    private $eventPublisher;
-
-    /**
-     * @var RequestId
-     */
-    private $requestId;
-
     private function registerCommand(string $service, string $method, $aguments = [], $agent = [])
     {
         $event = new CommandWasExecuted(
