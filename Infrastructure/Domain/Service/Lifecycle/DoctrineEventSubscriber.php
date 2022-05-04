@@ -4,49 +4,20 @@ namespace Ivoz\Core\Infrastructure\Domain\Service\Lifecycle;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Event\SchemaColumnDefinitionEventArgs;
-use Doctrine\DBAL\Types\{
-    GuidType,
-    JsonType,
-    StringType
-};
-use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Event\{
-    OnFlushEventArgs,
-    PreUpdateEventArgs,
-};
 use Doctrine\DBAL\Events as DbalEvents;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Event\{OnFlushEventArgs, PreUpdateEventArgs,};
 use Doctrine\ORM\Events;
-use Doctrine\ORM\Tools\ToolEvents;
 use Doctrine\ORM\PersistentCollection;
-use Ivoz\Core\Application\Helper\{
-    EntityClassHelper,
-    LifecycleServiceHelper,
-};
-use Ivoz\Core\Domain\Event\{
-    EntityWasCreated,
-    EntityWasDeleted,
-    EntityWasUpdated,
-};
-use Ivoz\Core\Domain\Model\EntityInterface;
-use Ivoz\Core\Domain\Model\{
-    LoggableEntityInterface,
-    LoggerEntityInterface,
-};
-use Ivoz\Core\Domain\Service\{
-    CommonLifecycleServiceCollection,
-    DomainEventPublisher,
-};
-use Ivoz\Core\Domain\Service\{
-    LifecycleEventHandlerInterface,
-    LifecycleServiceCollectionInterface
-};
-use Ivoz\Core\Infrastructure\Persistence\Doctrine\{
-    Events as CustomEvents,
-    OnCommitEventArgs,
-    OnErrorEventArgs
-};
+use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
+use Doctrine\ORM\Tools\ToolEvents;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Ivoz\Core\Application\Helper\{EntityClassHelper, LifecycleServiceHelper,};
+use Ivoz\Core\Domain\Event\{EntityWasCreated, EntityWasDeleted, EntityWasUpdated,};
+use Ivoz\Core\Domain\Model\{EntityInterface, LoggableEntityInterface, LoggerEntityInterface,};
+use Ivoz\Core\Domain\Service\{CommonLifecycleServiceCollection, DomainEventPublisher,};
+use Ivoz\Core\Domain\Service\{LifecycleEventHandlerInterface, LifecycleServiceCollectionInterface};
+use Ivoz\Core\Infrastructure\Persistence\Doctrine\{Events as CustomEvents, OnCommitEventArgs, OnErrorEventArgs};
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class DoctrineEventSubscriber implements EventSubscriber
@@ -125,7 +96,7 @@ class DoctrineEventSubscriber implements EventSubscriber
                 $tableColumn
             );
             $args->setColumn($column);
-            $args->preventDefault(true);
+            $args->preventDefault();
         })->call($this->schemaManager);
 
         return $args;
