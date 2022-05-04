@@ -6,6 +6,10 @@
           table="Commandlog"
           change-tracking-policy="DEFERRED_EXPLICIT"
   >
-    <id name="id" type="guid" column="id"/>
+    <id name="id" type="guid" column="id" length="36">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </id>
   </entity>
 </doctrine-mapping>

@@ -3,27 +3,21 @@
 namespace Ivoz\Core\Infrastructure\Domain\Service\Lifecycle;
 
 use Doctrine\Common\EventSubscriber;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Doctrine\DBAL\Event\SchemaColumnDefinitionEventArgs;
+use Doctrine\DBAL\Events as DbalEvents;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Event\OnFlushEventArgs;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Event\{OnFlushEventArgs, PreUpdateEventArgs,};
 use Doctrine\ORM\Events;
 use Doctrine\ORM\PersistentCollection;
-use Ivoz\Core\Application\Helper\EntityClassHelper;
-use Ivoz\Core\Application\Helper\LifecycleServiceHelper;
-use Ivoz\Core\Domain\Event\EntityWasCreated;
-use Ivoz\Core\Domain\Event\EntityWasDeleted;
-use Ivoz\Core\Domain\Event\EntityWasUpdated;
-use Ivoz\Core\Domain\Model\EntityInterface;
-use Ivoz\Core\Domain\Model\LoggableEntityInterface;
-use Ivoz\Core\Domain\Model\LoggerEntityInterface;
-use Ivoz\Core\Domain\Service\CommonLifecycleServiceCollection;
-use Ivoz\Core\Domain\Service\DomainEventPublisher;
-use Ivoz\Core\Domain\Service\LifecycleEventHandlerInterface;
-use Ivoz\Core\Domain\Service\LifecycleServiceCollectionInterface;
-use Ivoz\Core\Infrastructure\Persistence\Doctrine\Events as CustomEvents;
-use Ivoz\Core\Infrastructure\Persistence\Doctrine\OnCommitEventArgs;
-use Ivoz\Core\Infrastructure\Persistence\Doctrine\OnErrorEventArgs;
+use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
+use Doctrine\ORM\Tools\ToolEvents;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Ivoz\Core\Application\Helper\{EntityClassHelper, LifecycleServiceHelper,};
+use Ivoz\Core\Domain\Event\{EntityWasCreated, EntityWasDeleted, EntityWasUpdated,};
+use Ivoz\Core\Domain\Model\{EntityInterface, LoggableEntityInterface, LoggerEntityInterface,};
+use Ivoz\Core\Domain\Service\{CommonLifecycleServiceCollection, DomainEventPublisher,};
+use Ivoz\Core\Domain\Service\{LifecycleEventHandlerInterface, LifecycleServiceCollectionInterface};
+use Ivoz\Core\Infrastructure\Persistence\Doctrine\{Events as CustomEvents, OnCommitEventArgs, OnErrorEventArgs};
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class DoctrineEventSubscriber implements EventSubscriber
@@ -35,6 +29,7 @@ class DoctrineEventSubscriber implements EventSubscriber
     protected $eventPublisher;
     protected $commandPersister;
     protected $forcedEntityChangeLog;
+    protected $schemaManager;
 
     /**
      * @var EntityInterface[]
@@ -53,6 +48,7 @@ class DoctrineEventSubscriber implements EventSubscriber
         $this->eventPublisher = $eventPublisher;
         $this->commandPersister = $commandPersister;
         $this->forcedEntityChangeLog = $forcedEntityChangeLog;
+        $this->schemaManager = $em->getConnection()->createSchemaManager();
     }
 
     public function getSubscribedEvents()
@@ -73,6 +69,9 @@ class DoctrineEventSubscriber implements EventSubscriber
             CustomEvents::onCommit,
             CustomEvents::onError,
             CustomEvents::onHydratorComplete,
+
+            DbalEvents::onSchemaColumnDefinition,
+            ToolEvents::postGenerateSchema,
         ];
     }
 
@@ -84,6 +83,37 @@ class DoctrineEventSubscriber implements EventSubscriber
         }
 
         $object->initChangelog();
+    }
+
+    public function onSchemaColumnDefinition(SchemaColumnDefinitionEventArgs $args)
+    {
+        (function () use ($args) {
+            $tableColumn = $args->getTableColumn();
+            unset($tableColumn['CharacterSet']);
+            unset($tableColumn['Collation']);
+
+            $column = $this->_getPortableTableColumnDefinition(
+                $tableColumn
+            );
+            $args->setColumn($column);
+            $args->preventDefault();
+        })->call($this->schemaManager);
+
+        return $args;
+    }
+
+    public function postGenerateSchema(GenerateSchemaEventArgs $args)
+    {
+        $schema = $args->getSchema();
+        foreach ($schema->getTables() as $table) {
+            foreach ($table->getColumns() as $column) {
+                $platformOptions = $column->getPlatformOptions();
+                unset($platformOptions['version']);
+                $column->setPlatformOptions($platformOptions);
+            }
+        }
+
+        return $args;
     }
 
     /**
