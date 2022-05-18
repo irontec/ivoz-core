@@ -3,6 +3,7 @@
 namespace Ivoz\Core\Domain\Model\Mailer;
 
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
 
 class Message
 {
@@ -55,7 +56,12 @@ class Message
 
         $message
             ->subject($this->getSubject())
-            ->from($this->getFromAddress(), $this->getFromName())
+            ->from(
+                new Address(
+                    $this->getFromAddress(),
+                    $this->getFromName()
+                )
+            )
             ->to($this->getToAddress());
 
         if ($this->attachment) {
