@@ -6,9 +6,5 @@ use Ivoz\Core\Domain\Model\Mailer\Message;
 
 interface MailerClientInterface
 {
-    /**
-     * @param Message $message
-     * @return void
-     */
-    public function send(Message $message);
+    public function send(Message $message): void;
 }

@@ -2,6 +2,8 @@
 
 namespace Ivoz\Core\Domain\Model\Mailer;
 
+use Symfony\Component\Mime\Email;
+
 class Message
 {
     /**
@@ -34,22 +36,34 @@ class Message
      */
     protected $toAddress;
 
+    /**
+     * @var ?Attachment
+     */
     protected $attachment;
 
-    /**
-     * @return \Swift_Message
-     */
-    public function toSwiftMessage()
+    public function toEmail(): Email
     {
-        $message = new \Swift_Message();
+        $message = new Email();
+
+        if ($this->getBodyType() === 'text/plain') {
+            $message
+                ->text($this->getBody());
+        } else {
+            $message
+                ->html($this->getBody());
+        }
+
         $message
-            ->setBody($this->getBody(), $this->getBodyType())
-            ->setSubject($this->getSubject())
-            ->setFrom($this->getFromAddress(), $this->getFromName())
-            ->setTo($this->getToAddress());
+            ->subject($this->getSubject())
+            ->from($this->getFromAddress(), $this->getFromName())
+            ->to($this->getToAddress());
 
         if ($this->attachment) {
-            $message->attach($this->attachment);
+            $message->attach(
+                $this->attachment->getFile(),
+                $this->attachment->getFilename(),
+                $this->attachment->getMimetype(),
+            );
         }
 
         return $message;
@@ -160,9 +174,10 @@ class Message
      */
     public function setAttachment($file, $filename, $mimetype)
     {
-        $this->attachment = \Swift_Attachment::fromPath($file, $mimetype);
-        $this->attachment->setFilename(
-            $filename
+        $this->attachment = new Attachment(
+            $file,
+            $filename,
+            $mimetype
         );
     }
 }
