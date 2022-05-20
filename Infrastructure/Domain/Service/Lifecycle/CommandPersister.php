@@ -12,23 +12,14 @@ use Psr\Log\LoggerInterface;
 
 class CommandPersister
 {
-    protected $commandEventSubscriber;
-    protected $entityEventSubscriber;
-    protected $entityPersister;
-    protected $logger;
-
     protected $latestCommandlog;
 
     public function __construct(
-        CommandEventSubscriber $commandEventSubscriber,
-        EntityEventSubscriber $entityEventSubscriber,
-        EntityPersisterInterface $entityPersister,
-        LoggerInterface $logger
+        private CommandEventSubscriber $commandEventSubscriber,
+        private EntityEventSubscriber $entityEventSubscriber,
+        private EntityPersisterInterface $entityPersister,
+        private LoggerInterface $logger
     ) {
-        $this->commandEventSubscriber = $commandEventSubscriber;
-        $this->entityEventSubscriber = $entityEventSubscriber;
-        $this->entityPersister = $entityPersister;
-        $this->logger = $logger;
     }
 
     /**
