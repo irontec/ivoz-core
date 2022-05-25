@@ -4,6 +4,7 @@ namespace Ivoz\Core\Infrastructure\Domain\Service\Lifecycle;
 
 use Ivoz\Core\Application\Event\CommandWasExecuted;
 use Ivoz\Core\Application\Service\CommandEventSubscriber;
+use Ivoz\Core\Domain\Event\EntityEventInterface;
 use Ivoz\Core\Domain\Service\EntityEventSubscriber;
 use Ivoz\Core\Domain\Service\EntityPersisterInterface;
 use Ivoz\Core\Domain\Model\Changelog\Changelog;
@@ -27,6 +28,7 @@ class CommandPersister
      */
     public function persistEvents()
     {
+        /** @var EntityEventInterface[] $entityEvents */
         $entityEvents = $this
             ->entityEventSubscriber
             ->getEvents();
