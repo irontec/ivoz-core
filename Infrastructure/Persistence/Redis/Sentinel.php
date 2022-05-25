@@ -44,7 +44,7 @@ class Sentinel
     ) {
         $sentinelConfig = new SentinelConf($config);
 
-        return new self(
+        return new static(
             $sentinelConfig->get(),
             $logger
         );
