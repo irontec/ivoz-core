@@ -15,14 +15,26 @@ abstract class LoggableMigration extends AbstractMigration
 
     public function postUp(Schema $schema)
     {
-        $this->logChanges('up');
+        $this->logChangesAndHandleErrors('up');
         parent::postUp(...func_get_args());
     }
 
     public function postDown(Schema $schema)
     {
-        $this->logChanges('down');
+        $this->logChangesAndHandleErrors('down');
         parent::postDown(...func_get_args());
+    }
+
+    private function logChangesAndHandleErrors(string $direction)
+    {
+        try {
+            $this->logChanges($direction);
+        } catch (\Exception $e) {
+            $this->warnIf(
+                true,
+                $e->getMessage()
+            );
+        }
     }
 
     private function logChanges(string $direction)
@@ -75,7 +87,6 @@ abstract class LoggableMigration extends AbstractMigration
             );
         }
     }
-
 
     /**
      * @param string $entity
