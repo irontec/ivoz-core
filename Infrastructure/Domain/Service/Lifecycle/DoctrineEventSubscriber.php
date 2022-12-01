@@ -82,7 +82,9 @@ class DoctrineEventSubscriber implements EventSubscriber
             return;
         }
 
-        $object->initChangelog();
+        if (!$object->isInitialized()) {
+            $object->initChangelog();
+        }
     }
 
     public function onSchemaColumnDefinition(SchemaColumnDefinitionEventArgs $args)
