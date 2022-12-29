@@ -3,7 +3,7 @@
 namespace Ivoz\Core\Application\Service;
 
 use Doctrine\DBAL\LockMode;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\PessimisticLockException;
 use Ivoz\Core\Application\DataTransferObjectInterface;
@@ -25,7 +25,7 @@ class EntityTools
     private $entityUpdater;
 
     public function __construct(
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         EntityPersisterInterface $entityPersister,
         DtoAssembler $dtoAssembler,
         CreateEntityFromDto $createEntityFromDto,
