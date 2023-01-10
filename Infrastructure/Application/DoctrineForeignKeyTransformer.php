@@ -3,7 +3,7 @@
 namespace Ivoz\Core\Infrastructure\Application;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Ivoz\Core\Application\DataTransferObjectInterface;
 use Ivoz\Core\Application\ForeignKeyTransformerInterface;
 use Ivoz\Core\Application\Helper\EntityClassHelper;
@@ -12,11 +12,11 @@ use Ivoz\Core\Domain\Model\EntityInterface;
 class DoctrineForeignKeyTransformer implements ForeignKeyTransformerInterface
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }

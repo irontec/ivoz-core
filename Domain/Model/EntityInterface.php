@@ -27,6 +27,8 @@ interface EntityInterface
 
     public function __toString(): string;
 
+    public function isInitialized(): bool;
+
     public function initChangelog(): void;
 
     /**
