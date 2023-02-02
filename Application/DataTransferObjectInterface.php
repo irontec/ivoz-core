@@ -21,6 +21,10 @@ interface DataTransferObjectInterface
     public function setId(int|string $id);
     public function getId();
     public function normalize(string $context, string $role = ''): array;
+
+    /**
+     * @param array<array-key, mixed> $data
+     */
     public function denormalize(array $data, string $context, string $role = ''): void;
     /**
      * @return array<array-key, array<array-key, array<int, string>|string>|string>
