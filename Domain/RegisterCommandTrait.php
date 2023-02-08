@@ -1,8 +1,8 @@
 <?php
 
-namespace Ivoz\Core\Application;
+namespace Ivoz\Core\Domain;
 
-use Ivoz\Core\Application\Event\CommandWasExecuted;
+use Ivoz\Core\Domain\Event\CommandWasExecuted;
 use Ivoz\Core\Domain\Service\DomainEventPublisher;
 
 trait RegisterCommandTrait

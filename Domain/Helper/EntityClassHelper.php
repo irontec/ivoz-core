@@ -1,9 +1,9 @@
 <?php
 
-namespace Ivoz\Core\Application\Helper;
+namespace Ivoz\Core\Domain\Helper;
 
 use Doctrine\Persistence\Proxy;
-use Ivoz\Core\Application\DataTransferObjectInterface;
+use Ivoz\Core\Domain\DataTransferObjectInterface;
 use Ivoz\Core\Domain\Model\EntityInterface;
 
 class EntityClassHelper

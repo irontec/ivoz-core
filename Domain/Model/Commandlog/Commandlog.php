@@ -2,7 +2,7 @@
 
 namespace Ivoz\Core\Domain\Model\Commandlog;
 
-use Ivoz\Core\Application\Event\CommandEventInterface;
+use Ivoz\Core\Domain\Event\CommandEventInterface;
 use Ivoz\Core\Domain\Model\LoggerEntityInterface;
 
 class Commandlog extends CommandlogAbstract implements LoggerEntityInterface, CommandlogInterface
@@ -20,7 +20,7 @@ class Commandlog extends CommandlogAbstract implements LoggerEntityInterface, Co
     }
 
     /**
-     * @param \Ivoz\Core\Application\Event\CommandEventInterface $event
+     * @param \Ivoz\Core\Domain\Event\CommandEventInterface $event
      * @return self
      */
     public static function fromEvent(CommandEventInterface $event)

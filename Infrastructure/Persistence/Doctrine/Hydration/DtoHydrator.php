@@ -2,7 +2,10 @@
 
 namespace Ivoz\Core\Infrastructure\Persistence\Doctrine\Hydration;
 
+use Doctrine\DBAL\Result;
 use Doctrine\ORM\Internal\Hydration\ArrayHydrator;
+use Doctrine\ORM\Internal\Hydration\IterableResult;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Ivoz\Core\Domain\Model\EntityInterface;
 
 class DtoHydrator extends ArrayHydrator
@@ -10,7 +13,15 @@ class DtoHydrator extends ArrayHydrator
     protected $loadedEntities = [];
 
     /**
-     * {@inheritdoc}
+     * Initiates a row-by-row hydration.
+     *
+     * @deprecated
+     *
+     * @param Result $stmt
+     * @param ResultSetMapping       $resultSetMapping
+     * @psalm-param array<string, mixed> $hints
+     *
+     * @return IterableResult|array
      */
     public function hydrateAll($stmt, $resultSetMapping, array $hints = array())
     {
@@ -36,7 +47,7 @@ class DtoHydrator extends ArrayHydrator
             );
     }
 
-    private function mapToDto(array $rows)
+    private function mapToDto(array $rows): array
     {
         $aliasMap = $this->_rsm->getAliasMap();
 

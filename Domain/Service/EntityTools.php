@@ -1,13 +1,14 @@
 <?php
 
-namespace Ivoz\Core\Application\Service;
+namespace Ivoz\Core\Domain\Service;
 
 use Doctrine\DBAL\LockMode;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\PessimisticLockException;
-use Ivoz\Core\Application\DataTransferObjectInterface;
-use Ivoz\Core\Application\Service\Assembler\DtoAssembler;
+use Ivoz\Core\Domain\DataTransferObjectInterface;
+use Ivoz\Core\Domain\Service\Assembler\DtoAssembler;
 use Ivoz\Core\Domain\Model\EntityInterface;
 use Ivoz\Core\Domain\Service\EntityPersisterInterface;
 use Doctrine\ORM\UnitOfWork;

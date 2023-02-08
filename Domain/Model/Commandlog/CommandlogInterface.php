@@ -3,9 +3,9 @@
 namespace Ivoz\Core\Domain\Model\Commandlog;
 
 use Ivoz\Core\Domain\Model\EntityInterface;
-use Ivoz\Core\Application\Event\CommandEventInterface;
-use Ivoz\Core\Application\DataTransferObjectInterface;
-use Ivoz\Core\Application\ForeignKeyTransformerInterface;
+use Ivoz\Core\Domain\Event\CommandEventInterface;
+use Ivoz\Core\Domain\DataTransferObjectInterface;
+use Ivoz\Core\Domain\ForeignKeyTransformerInterface;
 
 /**
 * CommandlogInterface
@@ -20,7 +20,7 @@ interface CommandlogInterface extends EntityInterface
     public function getId(): ?string;
 
     /**
-     * @param \Ivoz\Core\Application\Event\CommandEventInterface $event
+     * @param \Ivoz\Core\Domain\Event\CommandEventInterface $event
      * @return self
      */
     public static function fromEvent(CommandEventInterface $event);

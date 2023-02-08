@@ -3,7 +3,6 @@ parameters:
         analyse:
             - vendor
     ignoreErrors:
-        - '#.*unknown class Ivoz\\Provider\\.*#'
-        - '#.*has invalid type Ivoz\\Provider\\.*#'
         - '#Unsafe usage of new static\(\)#'
         - '#.*has invalid type Doctrine\\DBAL\\Driver\\ResultStatement#'
+        - '#Conditional return type uses subject type T which is not part of PHPDoc @template tags#'

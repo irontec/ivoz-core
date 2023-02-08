@@ -12,7 +12,7 @@ use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
 use Doctrine\ORM\Tools\ToolEvents;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Ivoz\Core\Application\Helper\{EntityClassHelper, LifecycleServiceHelper,};
+use Ivoz\Core\Domain\Helper\{EntityClassHelper, LifecycleServiceHelper,};
 use Ivoz\Core\Domain\Event\{EntityWasCreated, EntityWasDeleted, EntityWasUpdated,};
 use Ivoz\Core\Domain\Model\{EntityInterface, LoggableEntityInterface, LoggerEntityInterface,};
 use Ivoz\Core\Domain\Service\{CommonLifecycleServiceCollection, DomainEventPublisher,};

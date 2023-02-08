@@ -1,8 +1,8 @@
 <?php
 
-namespace Ivoz\Core\Application\Service\Assembler;
+namespace Ivoz\Core\Domain\Service\Assembler;
 
-use Ivoz\Core\Application\Helper\EntityClassHelper;
+use Ivoz\Core\Domain\Helper\EntityClassHelper;
 use Ivoz\Core\Domain\Model\EntityInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

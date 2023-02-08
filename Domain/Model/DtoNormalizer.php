@@ -1,6 +1,6 @@
 <?php
 
-namespace Ivoz\Core\Application\Model;
+namespace Ivoz\Core\Domain\Model;
 
 trait DtoNormalizer
 {

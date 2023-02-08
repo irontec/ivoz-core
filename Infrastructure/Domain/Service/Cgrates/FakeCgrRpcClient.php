@@ -10,7 +10,6 @@ use GuzzleHttp\Promise\Promise;
 
 class FakeCgrRpcClient implements ClientInterface
 {
-
     private $fixedResponse = '{"error": null}';
 
     public function __construct(
@@ -30,7 +29,7 @@ class FakeCgrRpcClient implements ClientInterface
             'POST',
             '/uri',
             [],
-            '[]'
+            $this->fixedResponse
         );
     }
 
@@ -39,7 +38,7 @@ class FakeCgrRpcClient implements ClientInterface
         return new Response(
             200,
             [],
-            $this->fixedResponse
+            '{"error": null}'
         );
     }
 

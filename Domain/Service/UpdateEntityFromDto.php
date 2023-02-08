@@ -1,9 +1,9 @@
 <?php
 
-namespace Ivoz\Core\Application\Service;
+namespace Ivoz\Core\Domain\Service;
 
-use Ivoz\Core\Application\DataTransferObjectInterface;
-use Ivoz\Core\Application\Service\Assembler\EntityAssembler;
+use Ivoz\Core\Domain\DataTransferObjectInterface;
+use Ivoz\Core\Domain\Service\Assembler\EntityAssembler;
 use Ivoz\Core\Domain\Model\EntityInterface;
 
 /**
