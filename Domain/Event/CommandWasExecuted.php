@@ -1,6 +1,6 @@
 <?php
 
-namespace Ivoz\Core\Application\Event;
+namespace Ivoz\Core\Domain\Event;
 
 use Ramsey\Uuid\Uuid;
 

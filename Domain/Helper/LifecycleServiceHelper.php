@@ -1,6 +1,6 @@
 <?php
 
-namespace Ivoz\Core\Application\Helper;
+namespace Ivoz\Core\Domain\Helper;
 
 use Doctrine\Common\Inflector\Inflector;
 use Ivoz\Core\Domain\Model\EntityInterface;

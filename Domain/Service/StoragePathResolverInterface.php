@@ -1,6 +1,6 @@
 <?php
 
-namespace Ivoz\Core\Application\Service;
+namespace Ivoz\Core\Domain\Service;
 
 use Ivoz\Core\Domain\Model\EntityInterface;
 

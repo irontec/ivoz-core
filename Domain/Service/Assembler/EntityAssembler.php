@@ -1,9 +1,9 @@
 <?php
 
-namespace Ivoz\Core\Application\Service\Assembler;
+namespace Ivoz\Core\Domain\Service\Assembler;
 
-use Ivoz\Core\Application\DataTransferObjectInterface;
-use Ivoz\Core\Application\ForeignKeyTransformerInterface;
+use Ivoz\Core\Domain\DataTransferObjectInterface;
+use Ivoz\Core\Domain\ForeignKeyTransformerInterface;
 use Ivoz\Core\Domain\Model\EntityInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -92,7 +92,7 @@ class EntityAssembler
 
     /**
      * @param DataTransferObjectInterface $dto
-     * @return \Ivoz\Core\Application\Service\Assembler\CustomEntityAssemblerInterface | null
+     * @return \Ivoz\Core\Domain\Service\Assembler\CustomEntityAssemblerInterface | null
      */
     private function create(DataTransferObjectInterface $dto)
     {
@@ -118,7 +118,7 @@ class EntityAssembler
             substr(
                 str_replace(
                     'Domain\\Model',
-                    'Application\\Service',
+                    'Domain\\Assembler',
                     $entityClass
                 ),
                 0,

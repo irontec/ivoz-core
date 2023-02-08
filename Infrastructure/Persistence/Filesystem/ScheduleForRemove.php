@@ -2,7 +2,7 @@
 
 namespace Ivoz\Core\Infrastructure\Persistence\Filesystem;
 
-use Ivoz\Core\Application\Service\StoragePathResolverCollection;
+use Ivoz\Core\Domain\Service\StoragePathResolverCollection;
 use Ivoz\Core\Domain\Model\EntityInterface;
 use Ivoz\Core\Domain\Service\CommonLifecycleEventHandlerInterface;
 use Ivoz\Core\Domain\Service\FileContainerInterface;

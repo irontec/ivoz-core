@@ -3,11 +3,12 @@
 namespace Ivoz\Core\Application\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Ivoz\Core\Application\DataTransferObjectInterface;
-use Ivoz\Core\Application\Event\CommandWasExecuted;
-use Ivoz\Core\Application\RequestId;
-use Ivoz\Core\Application\Service\Assembler\DtoAssembler;
+use Ivoz\Core\Domain\DataTransferObjectInterface;
+use Ivoz\Core\Domain\Event\CommandWasExecuted;
+use Ivoz\Core\Domain\RequestId;
+use Ivoz\Core\Domain\Service\Assembler\DtoAssembler;
 use Ivoz\Core\Domain\Service\DomainEventPublisher;
+use Ivoz\Core\Domain\Service\QueryBuilderFactory;
 use Ivoz\Core\Infrastructure\Domain\Service\DoctrineEntityPersister;
 
 /**
@@ -52,9 +53,6 @@ class DataGateway
      */
     public static $user = '';
 
-    /**
-     * DataGateway constructor.
-     */
     public function __construct(
         EntityManagerInterface $entityManager,
         QueryBuilderFactory $queryBuilderFactory,

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ivoz\Core\Application;
+namespace Ivoz\Core\Domain;
 
 interface MutexInterface
 {

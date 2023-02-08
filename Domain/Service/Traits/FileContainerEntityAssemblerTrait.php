@@ -1,11 +1,11 @@
 <?php
 
-namespace Ivoz\Core\Application\Service\Traits;
+namespace Ivoz\Core\Domain\Service\Traits;
 
-use Ivoz\Core\Application\DataTransferObjectInterface;
-use Ivoz\Core\Application\ForeignKeyTransformerInterface;
-use Ivoz\Core\Application\Service\StoragePathResolverCollection;
-use Ivoz\Core\Application\Service\StoragePathResolverInterface;
+use Ivoz\Core\Domain\DataTransferObjectInterface;
+use Ivoz\Core\Domain\ForeignKeyTransformerInterface;
+use Ivoz\Core\Domain\Service\StoragePathResolverCollection;
+use Ivoz\Core\Domain\Service\StoragePathResolverInterface;
 use Ivoz\Core\Domain\Model\EntityInterface;
 use Ivoz\Core\Domain\Service\FileContainerInterface;
 use Ivoz\Core\Domain\Service\TempFile;
@@ -113,7 +113,7 @@ trait FileContainerEntityAssemblerTrait
      * @param DataTransferObjectInterface $dto
      * @param EntityInterface $entity
      * @param string $fldName
-     * @param \Ivoz\Core\Application\ForeignKeyTransformerInterface $fkTransformer
+     * @param \Ivoz\Core\Domain\ForeignKeyTransformerInterface $fkTransformer
      *
      * @throws \InvalidArgumentException
      *

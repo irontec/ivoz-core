@@ -5,8 +5,8 @@ namespace Ivoz\Core\Domain\Model\Changelog;
 use Ivoz\Core\Domain\Model\EntityInterface;
 use Ivoz\Core\Domain\Event\EntityEventInterface;
 use Ivoz\Core\Domain\Model\Commandlog\CommandlogInterface;
-use Ivoz\Core\Application\DataTransferObjectInterface;
-use Ivoz\Core\Application\ForeignKeyTransformerInterface;
+use Ivoz\Core\Domain\DataTransferObjectInterface;
+use Ivoz\Core\Domain\ForeignKeyTransformerInterface;
 
 /**
 * ChangelogInterface

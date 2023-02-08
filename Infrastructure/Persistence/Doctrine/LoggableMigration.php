@@ -4,7 +4,7 @@ namespace Ivoz\Core\Infrastructure\Persistence\Doctrine;
 
 use Doctrine\Migrations\AbstractMigration;;
 use Doctrine\DBAL\Schema\Schema;
-use Ivoz\Core\Application\Event\CommandWasExecuted;
+use Ivoz\Core\Domain\Event\CommandWasExecuted;
 use Ivoz\Core\Domain\Event\EntityWasUpdated;
 use Ivoz\Core\Domain\Model\Changelog\Changelog;
 use Ivoz\Core\Domain\Model\Commandlog\Commandlog;

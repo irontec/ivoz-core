@@ -1,8 +1,8 @@
 <?php
 
-namespace Ivoz\Core\Application\Service;
+namespace Ivoz\Core\Domain\Service;
 
-use Ivoz\Core\Application\Event\CommandEventInterface;
+use Ivoz\Core\Domain\Event\CommandEventInterface;
 use Ivoz\Core\Domain\Event\DomainEventInterface;
 use Ivoz\Core\Domain\Service\DomainEventSubscriberInterface;
 

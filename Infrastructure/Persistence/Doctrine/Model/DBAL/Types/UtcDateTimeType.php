@@ -10,7 +10,10 @@ class UtcDateTimeType extends DateTimeType
 {
     static private $utc;
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
+    /**
+     * {@inheritdoc}
+     */
+    public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if (is_string($value)) {
             return $value;

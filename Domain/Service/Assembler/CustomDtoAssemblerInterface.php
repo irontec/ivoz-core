@@ -1,8 +1,8 @@
 <?php
 
-namespace Ivoz\Core\Application\Service\Assembler;
+namespace Ivoz\Core\Domain\Service\Assembler;
 
-use Ivoz\Core\Application\DataTransferObjectInterface;
+use Ivoz\Core\Domain\DataTransferObjectInterface;
 use Ivoz\Core\Domain\Model\EntityInterface;
 
 interface CustomDtoAssemblerInterface

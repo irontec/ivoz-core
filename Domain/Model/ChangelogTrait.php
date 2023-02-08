@@ -2,7 +2,7 @@
 
 namespace Ivoz\Core\Domain\Model;
 
-use Ivoz\Core\Application\DataTransferObjectInterface;
+use Ivoz\Core\Domain\DataTransferObjectInterface;
 
 trait ChangelogTrait
 {
