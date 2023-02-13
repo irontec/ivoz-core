@@ -38,7 +38,7 @@ class FakeCgrRpcClient implements ClientInterface
         return new Response(
             200,
             [],
-            '{"error": null}'
+            $this->fixedResponse
         );
     }
 
