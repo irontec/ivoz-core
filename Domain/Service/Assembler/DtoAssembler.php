@@ -58,7 +58,7 @@ class DtoAssembler
         $serviceClassName =
             str_replace(
                 'Domain\\Model',
-                'Application\\Service',
+                'Domain\\Assembler',
                 $entityClass
             )
             . 'DtoAssembler';
