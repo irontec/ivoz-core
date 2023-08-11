@@ -13,7 +13,8 @@ class FakeRedisMasterFactory extends RedisMasterFactory
                 $timeout = 0.0,
                 $reserved = null,
                 $retryInterval = 0,
-                $readTimeout = 0.0
+                $readTimeout = 0.0,
+                $context = null
             ) {
                 return false;
             }
