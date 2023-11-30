@@ -25,7 +25,10 @@ interface CommandlogInterface extends EntityInterface
      */
     public static function fromEvent(CommandEventInterface $event);
 
-    public static function createDto(string|int|null $id = null): CommandlogDto;
+    /**
+     * @param string|null $id
+     */
+    public static function createDto($id = null): CommandlogDto;
 
     /**
      * @internal use EntityTools instead
