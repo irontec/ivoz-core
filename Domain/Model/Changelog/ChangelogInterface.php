@@ -32,7 +32,10 @@ interface ChangelogInterface extends EntityInterface
      */
     public function getId(): ?string;
 
-    public static function createDto(string|int|null $id = null): ChangelogDto;
+    /**
+     * @param string|null $id
+     */
+    public static function createDto($id = null): ChangelogDto;
 
     /**
      * @internal use EntityTools instead

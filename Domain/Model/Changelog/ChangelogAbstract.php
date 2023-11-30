@@ -84,7 +84,10 @@ abstract class ChangelogAbstract
     {
     }
 
-    public static function createDto(string|int|null $id = null): ChangelogDto
+    /**
+     * @param string|null $id
+     */
+    public static function createDto($id = null): ChangelogDto
     {
         return new ChangelogDto($id);
     }
