@@ -12,6 +12,8 @@ class UtcDateTimeType extends DateTimeType
 
     /**
      * {@inheritdoc}
+     * 
+     * @return mixed
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
