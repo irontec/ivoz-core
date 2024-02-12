@@ -60,7 +60,7 @@ abstract class LoggableMigration extends AbstractMigration
 
         foreach ($this->queries as $query) {
             $event = new EntityWasUpdated(
-                'unkown',
+                'unknown',
                 0,
                 [
                     'query' => $query,
