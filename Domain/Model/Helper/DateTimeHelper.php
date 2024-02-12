@@ -58,7 +58,7 @@ class DateTimeHelper
             return self::createFromString($value);
         }
 
-        throw new \Exception('Unkown format');
+        throw new \Exception('Unknown format');
     }
 
     /**

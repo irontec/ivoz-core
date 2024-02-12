@@ -281,7 +281,7 @@ class CriteriaHelper implements CriteriaHelperInterface
     {
         $operator = strtoupper($operator);
         if (!in_array($operator, [CompositeExpression::TYPE_OR, CompositeExpression::TYPE_AND])) {
-            throw new \InvalidArgumentException('Unkown operator ' . $operator);
+            throw new \InvalidArgumentException('Unknown operator ' . $operator);
         }
 
         /** @var CompositeExpression $expression */
