@@ -42,7 +42,7 @@ class EntityTools
 
     /**
      * Gets the repository for an entity class.
-     *
+     * @internal
      * @param string $fqdn full entity class name.
      *
      * @return \Doctrine\ORM\EntityRepository The repository class.
@@ -102,6 +102,7 @@ class EntityTools
     }
 
     /**
+     * @intenal
      * @param EntityInterface $entity
      * @param boolean $dispatchImmediately
      * @return void
@@ -117,6 +118,7 @@ class EntityTools
     }
 
     /**
+     * @internal
      * @param EntityInterface[] $entities
      */
     public function persistFromArray(array $entities)
@@ -129,6 +131,7 @@ class EntityTools
     }
 
     /**
+     * @internal
      * @param DataTransferObjectInterface $dto
      * @param EntityInterface|null $entity
      * @param bool $dispatchImmediately
@@ -162,6 +165,7 @@ class EntityTools
     }
 
     /**
+     * @internal
      * @return void
      */
     public function dispatchQueuedOperations()
@@ -172,6 +176,7 @@ class EntityTools
     }
 
     /**
+     * @internal
      * @param EntityInterface $entity
      * @return void
      */
@@ -183,6 +188,7 @@ class EntityTools
     }
 
     /**
+     * @internal
      * @param EntityInterface[] $entities
      * @return void
      */
