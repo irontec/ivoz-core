@@ -2,24 +2,24 @@
 
 namespace Ivoz\Core\Infrastructure\Persistence\Doctrine;
 
-use Doctrine\DBAL\Migrations\AbstractMigration;
+use Doctrine\Migrations\AbstractMigration;;
 use Doctrine\DBAL\Schema\Schema;
-use Ivoz\Core\Application\Event\CommandWasExecuted;
+use Ivoz\Core\Domain\Event\CommandWasExecuted;
 use Ivoz\Core\Domain\Event\EntityWasUpdated;
-use Ivoz\Provider\Domain\Model\Changelog\Changelog;
-use Ivoz\Provider\Domain\Model\Commandlog\Commandlog;
+use Ivoz\Core\Domain\Model\Changelog\Changelog;
+use Ivoz\Core\Domain\Model\Commandlog\Commandlog;
 
 abstract class LoggableMigration extends AbstractMigration
 {
     private $queries = [];
 
-    public function postUp(Schema $schema)
+    public function postUp(Schema $schema): void
     {
         $this->logChangesAndHandleErrors('up');
         parent::postUp(...func_get_args());
     }
 
-    public function postDown(Schema $schema)
+    public function postDown(Schema $schema): void
     {
         $this->logChangesAndHandleErrors('down');
         parent::postDown(...func_get_args());
@@ -40,7 +40,7 @@ abstract class LoggableMigration extends AbstractMigration
     private function logChanges(string $direction)
     {
         $event = new CommandWasExecuted(
-            0,
+            '0',
             get_class($this),
             $direction,
             [],
@@ -60,7 +60,7 @@ abstract class LoggableMigration extends AbstractMigration
 
         foreach ($this->queries as $query) {
             $event = new EntityWasUpdated(
-                'unkown',
+                'unknown',
                 0,
                 [
                     'query' => $query,
@@ -122,7 +122,7 @@ abstract class LoggableMigration extends AbstractMigration
         return $commandQuery;
     }
 
-    protected function addSql($sql, array $params = [], array $types = [])
+    protected function addSql($sql, array $params = [], array $types = []): void
     {
         $this->queries[] = $sql;
         parent::addSql(...func_get_args());

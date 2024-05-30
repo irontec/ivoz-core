@@ -58,7 +58,7 @@ class DateTimeHelper
             return self::createFromString($value);
         }
 
-        throw new \Exception('Unkown format');
+        throw new \Exception('Unknown format');
     }
 
     /**
@@ -195,7 +195,7 @@ class DateTimeHelper
     protected static function getCurrentUtcDateTime(): \DateTime
     {
         return new \DateTime(
-            null,
+            'now',
             new \DateTimeZone('UTC')
         );
     }

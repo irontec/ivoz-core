@@ -4,12 +4,14 @@ namespace Ivoz\Core\Infrastructure\Persistence\Doctrine\Hydration;
 
 use Doctrine\ORM\Internal\Hydration\ObjectHydrator as DoctrineObjectHydrator;
 use Ivoz\Core\Infrastructure\Persistence\Doctrine\Events as IvozEvents;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 
 class ObjectHydrator extends DoctrineObjectHydrator
 {
     protected $loadedEntities = [];
+
+    private static int $recursionLevel = 0;
 
     /**
      * {@inheritdoc}
@@ -22,6 +24,7 @@ class ObjectHydrator extends DoctrineObjectHydrator
             $this
         );
 
+        self::$recursionLevel++;
         $response = parent::hydrateAll(...func_get_args());
 
         $evm->removeEventListener(
@@ -34,6 +37,7 @@ class ObjectHydrator extends DoctrineObjectHydrator
             && is_object($response[0]);
 
         if ($mustTriggerEvents) {
+            /** @var string $reponseClass */
             $reponseClass = get_class($response[0]);
             $foreignEntities = array_filter(
                 $this->loadedEntities,
@@ -52,6 +56,14 @@ class ObjectHydrator extends DoctrineObjectHydrator
 
         $this->loadedEntities = [];
         return $response;
+    }
+
+    protected function cleanup()
+    {
+        self::$recursionLevel--;
+        if (self::$recursionLevel === 0) {
+            parent::cleanup();
+        }
     }
 
     public function hydrateRow()

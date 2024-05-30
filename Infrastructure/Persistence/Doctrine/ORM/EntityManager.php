@@ -6,13 +6,18 @@ use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\Configuration;
+use Doctrine\ORM\Decorator\EntityManagerDecorator;
 use Doctrine\ORM\EntityManager as DoctrineEntityManager;
+use Doctrine\ORM\NativeQuery;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Query as DqlQuery;
 use Ivoz\Core\Infrastructure\Persistence\Doctrine\Hydration\ObjectHydrator;
 use Ivoz\Core\Infrastructure\Persistence\Doctrine\Hydration\SimpleObjectHydrator;
 use Ivoz\Core\Infrastructure\Persistence\Doctrine\Hydration\DtoHydrator;
 
-class EntityManager extends DoctrineEntityManager implements ToggleableBufferedQueryInterface
+class EntityManager extends EntityManagerDecorator implements ToggleableBufferedQueryInterface
 {
     public function enableBufferedQuery()
     {
@@ -27,12 +32,14 @@ class EntityManager extends DoctrineEntityManager implements ToggleableBufferedQ
     private function setBufferedQuery(bool $enabled = true)
     {
         // https://www.php.net/manual/en/mysqlinfo.concepts.buffering.php
-
         (function () use ($enabled) {
-            $this->connect();
-            $driverName = $this->_conn->getAttribute(\PDO::ATTR_DRIVER_NAME);
+
+            /** @var \PDO $connection */
+            $connection = $this->getNativeConnection();
+            $driverName = $connection->getAttribute(\PDO::ATTR_DRIVER_NAME);
+
             if ($driverName === 'mysql') {
-                $this->_conn->setAttribute(
+                $connection->setAttribute(
                     \PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,
                     $enabled
                 );
@@ -65,7 +72,30 @@ class EntityManager extends DoctrineEntityManager implements ToggleableBufferedQ
                 throw new \InvalidArgumentException("Invalid argument: " . $conn);
         }
 
-        return new static($conn, $config, $conn->getEventManager());
+        $emRef = new \ReflectionClass(
+            DoctrineEntityManager::class
+        );
+        /** @var DoctrineEntityManager $em */
+        $em = $emRef->newInstanceWithoutConstructor();
+        $eventManager = $conn->getEventManager();
+        (function () use ($conn, $config, $eventManager) {
+            $this->__construct($conn, $config, $eventManager);
+        })->call($em);
+
+        $instance = new self($em);
+        (function () use ($instance) {
+            $this->em = $instance;
+        })->call($instance->getUnitOfWork());
+
+        return $instance;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getHydrator($hydrationMode)
+    {
+        return $this->newHydrator($hydrationMode);
     }
 
     /**
@@ -86,5 +116,40 @@ class EntityManager extends DoctrineEntityManager implements ToggleableBufferedQ
             default:
                 return parent::newHydrator(...func_get_args());
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createQuery($dql = '')
+    {
+        $query = new DqlQuery($this);
+
+        if (! empty($dql)) {
+            $query->setDQL($dql);
+        }
+
+        return $query;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createNativeQuery($sql, ResultSetMapping $rsm)
+    {
+        $query = new NativeQuery($this);
+
+        $query->setSQL($sql);
+        $query->setResultSetMapping($rsm);
+
+        return $query;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createQueryBuilder()
+    {
+        return new QueryBuilder($this);
     }
 }

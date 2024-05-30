@@ -3,27 +3,24 @@
 namespace Ivoz\Core\Infrastructure\Application;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
-use Ivoz\Core\Application\DataTransferObjectInterface;
-use Ivoz\Core\Application\ForeignKeyTransformerInterface;
-use Ivoz\Core\Application\Helper\EntityClassHelper;
+use Doctrine\ORM\EntityManagerInterface;
+use Ivoz\Core\Domain\DataTransferObjectInterface;
+use Ivoz\Core\Domain\ForeignKeyTransformerInterface;
+use Ivoz\Core\Domain\Helper\EntityClassHelper;
 use Ivoz\Core\Domain\Model\EntityInterface;
 
 class DoctrineForeignKeyTransformer implements ForeignKeyTransformerInterface
 {
-    /**
-     * @var EntityManager
-     */
-    private $em;
-
-    public function __construct(EntityManager $em)
-    {
-        $this->em = $em;
+    public function __construct(
+        private EntityManagerInterface $em
+    ) {
     }
 
     /**
      * @param mixed $element
      * @param bool $persist
+     *
+     * @return ?EntityInterface
      */
     public function transform($element, $persist = true)
     {
@@ -66,15 +63,11 @@ class DoctrineForeignKeyTransformer implements ForeignKeyTransformerInterface
     }
 
     /**
-     * @param array | null $elements
-     * @return ArrayCollection | null
+     * @param array $elements
+     * @return ArrayCollection<array-key, EntityInterface>
      */
-    public function transformCollection(array $elements = null)
+    public function transformCollection(array $elements)
     {
-        if (is_null($elements)) {
-            return null;
-        }
-
         if (empty($elements)) {
             return new ArrayCollection();
         }

@@ -120,7 +120,7 @@ class CriteriaHelper implements CriteriaHelperInterface
     /**
      * @param string $field
      * @param string $operator
-     * @param null $value
+     * @param null|mixed $value
      * @return Comparison
      */
     private static function createExpression(string $field, string $operator, $value = null)
@@ -281,10 +281,10 @@ class CriteriaHelper implements CriteriaHelperInterface
     {
         $operator = strtoupper($operator);
         if (!in_array($operator, [CompositeExpression::TYPE_OR, CompositeExpression::TYPE_AND])) {
-            throw new \InvalidArgumentException('Unkown operator ' . $operator);
+            throw new \InvalidArgumentException('Unknown operator ' . $operator);
         }
 
-        /** @var CompositeExpression $baseExpression */
+        /** @var CompositeExpression $expression */
         $expression = self::simplifyCompositeExpression(
             $baseCriteria->getWhereExpression()
         );
@@ -306,8 +306,12 @@ class CriteriaHelper implements CriteriaHelperInterface
         return new Criteria($expression);
     }
 
-    private static function simplifyCompositeExpression(CompositeExpression $expression): CompositeExpression
+    private static function simplifyCompositeExpression(Expression $expression): Expression
     {
+        if (! $expression instanceof CompositeExpression) {
+            return $expression;
+        }
+
         $expressionList = $expression->getExpressionList();
         $firstExpression = current($expressionList);
         $isAndCondition = $expression->getType() === CompositeExpression::TYPE_AND;

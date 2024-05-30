@@ -1,0 +1,24 @@
+name: PHPStan tests
+
+on:
+  push:
+    branches: [ 4.x ]
+  pull_request:
+    branches: [ 4.x ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Validate composer.json
+      run: composer validate --strict
+
+    - name: Install dependencies
+      uses: php-actions/composer@v6
+
+    - name: Run PHPStan tests
+      run: bin/test-phpstan

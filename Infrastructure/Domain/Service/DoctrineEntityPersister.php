@@ -5,10 +5,10 @@ namespace Ivoz\Core\Infrastructure\Domain\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\UnitOfWork;
-use Ivoz\Core\Application\DataTransferObjectInterface;
-use Ivoz\Core\Application\Helper\EntityClassHelper;
-use Ivoz\Core\Application\Service\CreateEntityFromDto;
-use Ivoz\Core\Application\Service\UpdateEntityFromDto;
+use Ivoz\Core\Domain\DataTransferObjectInterface;
+use Ivoz\Core\Domain\Helper\EntityClassHelper;
+use Ivoz\Core\Domain\Service\CreateEntityFromDto;
+use Ivoz\Core\Domain\Service\UpdateEntityFromDto;
 use Ivoz\Core\Domain\Model\EntityInterface;
 use Ivoz\Core\Domain\Service\EntityPersisterInterface;
 use Ivoz\Core\Infrastructure\Persistence\Doctrine\Events as CustomEvents;
@@ -161,6 +161,7 @@ class DoctrineEntityPersister implements EntityPersisterInterface
             }
 
             if (in_array($state, $singleComputationValidStates)) {
+                /** @phpstan-ignore-next-line  */
                 $this->em->flush($entity);
                 return;
             }
@@ -330,7 +331,7 @@ class DoctrineEntityPersister implements EntityPersisterInterface
             foreach ($associations as $field => $association) {
                 $isDeleteCascade =
                     isset($association['joinColumns'])
-                    && $association['joinColumns'][0]['onDelete'] === 'cascade';
+                    && strtolower($association['joinColumns'][0]['onDelete']) === 'cascade';
 
                 if (!$isDeleteCascade) {
                     continue;

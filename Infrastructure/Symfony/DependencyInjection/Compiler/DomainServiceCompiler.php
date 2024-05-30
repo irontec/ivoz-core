@@ -2,7 +2,7 @@
 
 namespace Ivoz\Core\Infrastructure\Symfony\DependencyInjection\Compiler;
 
-use Ivoz\Core\Application\Helper\LifecycleServiceHelper;
+use Ivoz\Core\Domain\Helper\LifecycleServiceHelper;
 use Ivoz\Core\Domain\Service\DomainEventSubscriberInterface;
 use Ivoz\Core\Domain\Service\LifecycleEventHandlerInterface;
 use Ivoz\Core\Domain\Service\LifecycleServiceCollectionInterface;
@@ -127,9 +127,9 @@ class DomainServiceCompiler implements CompilerPassInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      *
-     * @psalm-return array<int, array-key>
+     * @psalm-return array<int, string>
      */
     protected function getLifecycleEventHandlerServices(): array
     {

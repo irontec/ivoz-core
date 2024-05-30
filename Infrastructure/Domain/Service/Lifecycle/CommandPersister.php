@@ -2,33 +2,25 @@
 
 namespace Ivoz\Core\Infrastructure\Domain\Service\Lifecycle;
 
-use Ivoz\Core\Application\Event\CommandWasExecuted;
-use Ivoz\Core\Application\Service\CommandEventSubscriber;
+use Ivoz\Core\Domain\Event\CommandWasExecuted;
+use Ivoz\Core\Domain\Service\CommandEventSubscriber;
+use Ivoz\Core\Domain\Event\EntityEventInterface;
 use Ivoz\Core\Domain\Service\EntityEventSubscriber;
 use Ivoz\Core\Domain\Service\EntityPersisterInterface;
-use Ivoz\Provider\Domain\Model\Changelog\Changelog;
-use Ivoz\Provider\Domain\Model\Commandlog\Commandlog;
+use Ivoz\Core\Domain\Model\Changelog\Changelog;
+use Ivoz\Core\Domain\Model\Commandlog\Commandlog;
 use Psr\Log\LoggerInterface;
 
 class CommandPersister
 {
-    protected $commandEventSubscriber;
-    protected $entityEventSubscriber;
-    protected $entityPersister;
-    protected $logger;
-
     protected $latestCommandlog;
 
     public function __construct(
-        CommandEventSubscriber $commandEventSubscriber,
-        EntityEventSubscriber $entityEventSubscriber,
-        EntityPersisterInterface $entityPersister,
-        LoggerInterface $logger
+        private CommandEventSubscriber $commandEventSubscriber,
+        private EntityEventSubscriber $entityEventSubscriber,
+        private EntityPersisterInterface $entityPersister,
+        private LoggerInterface $logger
     ) {
-        $this->commandEventSubscriber = $commandEventSubscriber;
-        $this->entityEventSubscriber = $entityEventSubscriber;
-        $this->entityPersister = $entityPersister;
-        $this->logger = $logger;
     }
 
     /**
@@ -36,6 +28,7 @@ class CommandPersister
      */
     public function persistEvents()
     {
+        /** @var EntityEventInterface[] $entityEvents */
         $entityEvents = $this
             ->entityEventSubscriber
             ->getEvents();
@@ -145,7 +138,7 @@ class CommandPersister
     private function registerFallbackCommand(): CommandWasExecuted
     {
         $command = new CommandWasExecuted(
-            0,
+            '0',
             'Unregistered',
             'Unregistered',
             [],

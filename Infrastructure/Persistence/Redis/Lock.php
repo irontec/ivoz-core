@@ -2,7 +2,7 @@
 
 namespace Ivoz\Core\Infrastructure\Persistence\Redis;
 
-use Ivoz\Core\Application\MutexInterface;
+use Ivoz\Core\Domain\MutexInterface;
 use Psr\Log\LoggerInterface;
 
 class Lock implements MutexInterface
@@ -11,7 +11,7 @@ class Lock implements MutexInterface
     private $logger;
     private $dbIndex;
 
-    /** @var \Redis */
+    /** @var ?\Redis */
     private $redisMaster;
 
     private $lockKey;

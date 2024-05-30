@@ -37,11 +37,7 @@ class DoctrineQueryRunner
     }
 
     /**
-     * @param string $entityName
-     * @param AbstractQuery $query
      * @return int affected rows
-     * @throws \Doctrine\DBAL\ConnectionException
-     * @throws \Doctrine\DBAL\DBALException
      */
     public function execute(string $entityName, AbstractQuery $query)
     {
@@ -62,7 +58,11 @@ class DoctrineQueryRunner
         }
 
         $retries = self::DEADLOCK_RETRIES;
-        while (0 < $retries--) {
+        /** @phpstan-ignore-next-line  */
+        while (0 < $retries) {
+
+            $retries -= 1;
+
             $this
                 ->em
                 ->getConnection()
@@ -117,10 +117,7 @@ class DoctrineQueryRunner
     }
 
     /**
-     * @param AbstractQuery $query
-     * @param EntityEventInterface $event
      * @return int $affectedRows
-     * @throws \Doctrine\DBAL\DBALException
      */
     private function runQueryAndReturnAffectedRows(AbstractQuery $query, EntityEventInterface $event)
     {
@@ -170,6 +167,7 @@ class DoctrineQueryRunner
         /** @var \Closure $dqlParamResolver */
         $dqlParamResolver = function () use (&$sqlParams, &$types) {
 
+            /** @var AbstractQuery $this */
             assert(
                 $this instanceof DqlQuery,
                 new \Exception('dqlParamResolver context must be instance of ' . DqlQuery::class)
@@ -177,6 +175,7 @@ class DoctrineQueryRunner
 
             $parser = new Parser($this);
             $paramMappings = $parser->parse()->getParameterMappings();
+            /** @phpstan-ignore-next-line  */
             list($params, $paramTypes) = $this->processParameterMappings($paramMappings);
 
             $sqlParams = $params;

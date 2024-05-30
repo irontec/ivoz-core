@@ -2,12 +2,13 @@
 
 namespace Ivoz\Core\Application\Service;
 
-use Doctrine\ORM\EntityManager;
-use Ivoz\Core\Application\DataTransferObjectInterface;
-use Ivoz\Core\Application\Event\CommandWasExecuted;
-use Ivoz\Core\Application\RequestId;
-use Ivoz\Core\Application\Service\Assembler\DtoAssembler;
+use Doctrine\ORM\EntityManagerInterface;
+use Ivoz\Core\Domain\DataTransferObjectInterface;
+use Ivoz\Core\Domain\Event\CommandWasExecuted;
+use Ivoz\Core\Domain\RequestId;
+use Ivoz\Core\Domain\Service\Assembler\DtoAssembler;
 use Ivoz\Core\Domain\Service\DomainEventPublisher;
+use Ivoz\Core\Domain\Service\QueryBuilderFactory;
 use Ivoz\Core\Infrastructure\Domain\Service\DoctrineEntityPersister;
 
 /**
@@ -18,7 +19,7 @@ use Ivoz\Core\Infrastructure\Domain\Service\DoctrineEntityPersister;
 class DataGateway
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 
@@ -52,17 +53,8 @@ class DataGateway
      */
     public static $user = '';
 
-    /**
-     * DataGateway constructor.
-     * @param EntityManager $entityManager
-     * @param QueryBuilderFactory $queryBuilderFactory
-     * @param DoctrineEntityPersister $entityPersister
-     * @param DtoAssembler $dtoAssembler
-     * @param DomainEventPublisher $eventPublisher
-     * @param RequestId $requestId
-     */
     public function __construct(
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         QueryBuilderFactory $queryBuilderFactory,
         DoctrineEntityPersister $entityPersister,
         DtoAssembler $dtoAssembler,

@@ -2,7 +2,7 @@
 
 namespace Ivoz\Core\Domain\Service;
 
-use Ivoz\Core\Application\Service\StoragePathResolverInterface;
+use Ivoz\Core\Domain\Service\StoragePathResolverInterface;
 use Ivoz\Core\Domain\Model\EntityInterface;
 
 class TempFile

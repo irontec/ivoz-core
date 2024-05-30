@@ -2,8 +2,8 @@
 
 namespace Ivoz\Core\Domain\Model;
 
-use Ivoz\Core\Application\DataTransferObjectInterface;
-use Ivoz\Core\Application\ForeignKeyTransformerInterface;
+use Ivoz\Core\Domain\DataTransferObjectInterface;
+use Ivoz\Core\Domain\ForeignKeyTransformerInterface;
 
 /**
  * Entity interface
@@ -13,100 +13,65 @@ use Ivoz\Core\Application\ForeignKeyTransformerInterface;
 interface EntityInterface
 {
     /**
-     * @return mixed
+     * @return string|int|null
      */
     public function getId();
 
-    /**
-     * @return bool
-     */
-    public function isNew();
+    public function isNew(): bool;
+
+    public function isPersisted(): bool;
+
+    public function markAsPersisted(): void;
+
+    public function hasBeenDeleted(): bool;
+
+    public function __toString(): string;
+
+    public function isInitialized(): bool;
+
+    public function initChangelog(): void;
 
     /**
-     * @return bool
-     */
-    public function isPersisted();
-
-    /**
-     * @return void
-     */
-    public function markAsPersisted();
-
-    /**
-     * @return bool
-     */
-    public function hasBeenDeleted();
-
-    /**
-     * @return string
-     */
-    public function __toString();
-
-    /**
-     * @return void
      * @throws \Exception
      */
-    public function initChangelog();
-
-    /**
-     * @param string $fieldName
-     * @return boolean
-     * @throws \Exception
-     */
-    public function hasChanged($fieldName);
+    public function hasChanged(string $fieldName): bool;
 
     /**
      * @return string[]
      */
-    public function getChangedFields();
+    public function getChangedFields(): array;
 
     /**
-     * @param string $fieldName
-     * @return mixed
      * @throws \Exception
      */
-    public function getInitialValue($fieldName);
+    public function getInitialValue(string $fieldName): mixed;
+
+    public static function createDto(int|string|null $id = null): DataTransferObjectInterface;
 
     /**
-     * @param mixed|null $id
-     * @return EntityInterface
-     */
-    public static function createDto($id = null);
-
-    /**
-     * @param int $depth
-     * @param EntityInterface|null $entity
-     * @return DataTransferObjectInterface|null
      * @todo move this into dto::fromEntity
      */
-    public static function entityToDto(EntityInterface $entity = null, $depth = 0);
+    public static function entityToDto(?EntityInterface $entity, int $depth = 0): ?DataTransferObjectInterface;
 
     /**
      * Factory method
-     * @param DataTransferObjectInterface $dto
-     * @param \Ivoz\Core\Application\ForeignKeyTransformerInterface $fkTransformer
      */
     public static function fromDto(
         DataTransferObjectInterface $dto,
         ForeignKeyTransformerInterface $fkTransformer
-    );
+    ): EntityInterface;
 
     /**
      * @internal use EntityTools instead
-     * @param DataTransferObjectInterface $dto
-     * @param \Ivoz\Core\Application\ForeignKeyTransformerInterface  $fkTransformer
-     * @return self
      */
     public function updateFromDto(
         DataTransferObjectInterface $dto,
         ForeignKeyTransformerInterface $fkTransformer
-    );
+    ): static;
 
     /**
      * DTO casting
-     * @param int $depth
-     * @return DataTransferObjectInterface
      * @todo move this into dto::fromEntity
      */
-    public function toDto($depth = 0);
+    public function toDto(int $depth = 0): DataTransferObjectInterface;
 }

@@ -17,7 +17,7 @@ class Assertion extends BaseAssertion
 
         $pattern = '/' . str_replace('/', '\/', $pattern) . '/';
 
-        if (@preg_match($pattern, null) === false) {
+        if (@preg_match($pattern, '') === false) {
             $message = \sprintf(
                 static::generateMessage($message) ?: '"%s" is not a valid regexp',
                 static::stringify($pattern)

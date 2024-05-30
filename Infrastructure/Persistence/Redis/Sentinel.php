@@ -106,7 +106,7 @@ class Sentinel
             $masterName
         );
 
-        if (empty($masters)) {
+        if (empty($master)) {
             throw new \RuntimeException(
                 'Unable to get redis master'
             );
