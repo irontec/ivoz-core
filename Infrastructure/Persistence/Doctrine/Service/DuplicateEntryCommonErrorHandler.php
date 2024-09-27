@@ -37,8 +37,15 @@ class DuplicateEntryCommonErrorHandler implements CommonPersistErrorHandlerInter
         $isDuplicatedError = $pdoException->getCode() === self::MYSQL_ERROR_DUPLICATE_ENTRY;
 
         if ($isDuplicatedError) {
+            preg_match(
+                '/Duplicate entry \'[_a-zA-Z0-9]+\' for key \'([_a-zA-Z0-9]+)\'/',
+                $exception->getMessage(),
+                $results
+            );
+            $uniqueKey = $results[1] ?? 'unknown';
+
             throw new \DomainException(
-                'Duplicated value found',
+                'Duplicate value on key: ' . $uniqueKey,
                 0,
                 $exception
             );
