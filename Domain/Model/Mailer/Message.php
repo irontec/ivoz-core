@@ -43,6 +43,11 @@ class Message
     protected $attachments = [];
 
     /**
+     * @var Embedded[]
+     */
+    protected $embedded = [];
+
+    /**
      * @internal
      */
     public function toEmail(): Email
@@ -85,6 +90,26 @@ class Message
                     $stream,
                     $attachment->getFilename(),
                     $attachment->getMimetype(),
+                );
+            }
+        }
+
+        foreach ($this->embedded as $embedded) {
+            if ($embedded->getType() === Attachment::TYPE_FILEPATH) {
+                $message->embed(
+                    $embedded->getFile(),
+                    $embedded->getName(),
+                    $embedded->getMimetype(),
+                );
+            } else {
+                $stream = fopen('php://memory', 'rw+');
+                fwrite($stream, $embedded->getFile());
+                rewind($stream);
+
+                $message->embed(
+                    $stream,
+                    $embedded->getName(),
+                    $embedded->getMimetype(),
                 );
             }
         }
@@ -173,6 +198,31 @@ class Message
             $filename,
             $mimetype,
             $type
+        );
+
+        return $this;
+    }
+
+    public function setEmbedded($file, $name, $mimetype, $type = Embedded::TYPE_FILEPATH): Message
+    {
+        $this->embedded = [];
+        $this->addEmbedded(
+            $file,
+            $name,
+            $mimetype,
+            $type,
+        );
+
+        return $this;
+    }
+
+    public function addEmbedded($file, $name, $mimetype,  $type = Embedded::TYPE_FILEPATH): Message
+    {
+        $this->embedded[] = new Embedded(
+            $file,
+            $name,
+            $mimetype,
+            $type,
         );
 
         return $this;
