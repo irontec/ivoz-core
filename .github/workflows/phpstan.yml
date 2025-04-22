@@ -2,9 +2,9 @@ name: PHPStan tests
 
 on:
   push:
-    branches: [ 4.x ]
+    branches: [ '*.*' ]
   pull_request:
-    branches: [ 4.x ]
+    branches: [ '*.*' ]
 
 jobs:
   build:

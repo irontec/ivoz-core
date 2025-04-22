@@ -15,17 +15,17 @@ class FakeRedisMasterFactory extends RedisMasterFactory
                 $retryInterval = 0,
                 $readTimeout = 0.0,
                 $context = null
-            ) {
+            ): bool {
                 return false;
             }
 
-            public function lPush($key, ...$value1) { return false; }
+            public function lPush($key, ...$value1): int|false|\Redis { return false; }
 
-            public function rPush($key, ...$value1) { return false; }
+            public function rPush($key, ...$value1): int|false|\Redis { return false; }
 
             public function blPop($key, $timeout_or_key, ...$extra_args) { return []; }
 
-            public function scan(&$iterator, $pattern = null, $count = 0, ...$extra_args)
+            public function scan(&$iterator, $pattern = null, $count = 0, ...$extra_args): array
             {
                 $iterator = 0;
                 return ['something'];
