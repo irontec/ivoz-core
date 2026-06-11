@@ -199,6 +199,9 @@ trait FileContainerEntityAssemblerTrait
                 $mimeType = $finfo->file($newFilePath);
             }
             $baseName = $dto->{$baseNameGetter}();
+            if ($baseName !== null) {
+                $baseName = str_replace(['/', '\\'], '-', $baseName);
+            }
         }
 
         $dto->{$baseNameSetter}(
