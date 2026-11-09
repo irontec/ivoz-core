@@ -18,12 +18,12 @@ class FakeCgrRpcClient implements ClientInterface
         $this->fixedResponse = $fixedResponse;
     }
 
-    public function notification($method, array $params = null)
+    public function notification($method, ?array $params = null): RequestInterface
     {
         return $this->createRequest();
     }
 
-    public function request($id, $method, array $params = null)
+    public function request($id, $method, ?array $params = null): RequestInterface
     {
         return new Request(
             'POST',

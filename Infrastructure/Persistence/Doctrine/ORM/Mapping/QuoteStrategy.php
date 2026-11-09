@@ -14,7 +14,7 @@ class QuoteStrategy extends DefaultQuoteStrategy
     /**
      * {@inheritdoc}
      */
-    public function getColumnAlias($columnName, $counter, AbstractPlatform $platform, ClassMetadata $class = null)
+    public function getColumnAlias($columnName, $counter, AbstractPlatform $platform, ?ClassMetadata $class = null): string
     {
         $columnName = parent::getColumnAlias(...func_get_args());
         $columnName = is_numeric($columnName[0]) ? '_' . $columnName : $columnName;

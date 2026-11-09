@@ -4,17 +4,11 @@ namespace Ivoz\Core\Domain\Model\Helper;
 
 class DateTimeHelper
 {
-    /**
-     * @param string $value
-     * @param string $format
-     * @param \DateTimeZone|null $initialTimeZone
-     * @return string
-     */
     public static function stringToUtc(
         string $value,
         string $format = 'Y-m-d H:i:s',
-        \DateTimeZone $initialTimeZone = null
-    ) {
+        ?\DateTimeZone $initialTimeZone = null
+    ): string {
         $dateTime = \DateTime::createFromFormat(
             $format,
             $value,

@@ -20,7 +20,7 @@ interface RepositoryInterface extends ObjectRepository, Selectable
      * @param EntityT|null $entity
      * @return EntityT
      */
-    public function persistDto(DataTransferObjectInterface $dto, EntityInterface $entity = null, $dispatchImmediately = false): EntityInterface;
+    public function persistDto(DataTransferObjectInterface $dto, ?EntityInterface $entity = null, $dispatchImmediately = false): EntityInterface;
 
     /**
      * @param EntityT $entity

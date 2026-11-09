@@ -2,6 +2,7 @@
 
 namespace Ivoz\Core\Domain\Service\Assembler;
 
+use Ivoz\Core\Domain\DataTransferObjectInterface;
 use Ivoz\Core\Domain\Helper\EntityClassHelper;
 use Ivoz\Core\Domain\Model\EntityInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -25,7 +26,7 @@ class DtoAssembler
         $this->customAssemblers = [];
     }
 
-    public function toDto(EntityInterface $targetEntity, $depth = 0, string $context = null)
+    public function toDto(EntityInterface $targetEntity, $depth = 0, ?string $context = null): DataTransferObjectInterface
     {
         $assembler = $this->getAssembler($targetEntity);
         return $assembler

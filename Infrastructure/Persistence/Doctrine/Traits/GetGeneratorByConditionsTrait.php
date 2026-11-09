@@ -7,13 +7,7 @@ use Ivoz\Core\Infrastructure\Persistence\Doctrine\Model\Helper\CriteriaHelper;
 
 trait GetGeneratorByConditionsTrait
 {
-    /**
-     * @param array $conditions
-     * @param int $batchSize
-     * @param array|null $order
-     * @return \Generator
-     */
-    public function getGeneratorByConditions(array $conditions, int $batchSize, array $order = null)
+    public function getGeneratorByConditions(array $conditions, int $batchSize, ?array $order = null): \Generator
     {
         /** @var QueryBuilder $qb */
         $qb = $this->createQueryBuilder('self');

@@ -57,7 +57,7 @@ abstract class ChangelogDtoAbstract implements DataTransferObjectInterface
     /**
     * @inheritdoc
     */
-    public static function getPropertyMap(string $context = '', string $role = null): array
+    public static function getPropertyMap(string $context = '', ?string $role = null): array
     {
         if ($context === self::CONTEXT_COLLECTION) {
             return ['id' => 'id'];

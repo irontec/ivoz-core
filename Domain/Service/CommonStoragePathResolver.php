@@ -50,10 +50,7 @@ class CommonStoragePathResolver implements StoragePathResolverInterface
         $this->keepExtension = $keepExtension;
     }
 
-    /**
-     * @param string|null $originalFileName
-     */
-    public function setOriginalFileName(string $originalFileName = null)
+    public function setOriginalFileName(?string $originalFileName = null): void
     {
         $this->originalFileName = $originalFileName;
     }
