@@ -40,7 +40,7 @@ class EntityWasCreated implements EntityEventInterface
     public function __construct(
         string $entityClass,
         $entityId,
-        array $data = null
+        ?array $data = null
     ) {
         $this->entityClass = $entityClass;
         $this->entityId = $entityId;

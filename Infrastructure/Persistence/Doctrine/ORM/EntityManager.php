@@ -47,7 +47,7 @@ class EntityManager extends EntityManagerDecorator implements ToggleableBuffered
         })->call($this->getConnection());
     }
 
-    public static function create($conn, Configuration $config, EventManager $eventManager = null)
+    public static function create($conn, Configuration $config, ?EventManager $eventManager = null): self
     {
         if (! $config->getMetadataDriverImpl()) {
             throw ORMException::missingMappingDriverImpl();

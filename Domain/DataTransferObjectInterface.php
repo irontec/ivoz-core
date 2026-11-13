@@ -29,7 +29,7 @@ interface DataTransferObjectInterface
     /**
      * @return array<array-key, array<array-key, array<int, string>|string>|string>
      */
-    public static function getPropertyMap(string $context = '', string $role = null): array;
+    public static function getPropertyMap(string $context = '', ?string $role = null): array;
     public function getSensitiveFields(): array;
     /**
      * @return array<array-key, mixed>

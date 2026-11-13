@@ -86,17 +86,11 @@ class DoctrineEntityPersister implements EntityPersisterInterface
         $this->softDeleteMap = $softDeleteMap;
     }
 
-    /**
-     * @param DataTransferObjectInterface $dto
-     * @param EntityInterface|null $entity
-     * @param bool $dispatchImmediately
-     * @return EntityInterface
-     */
     public function persistDto(
         DataTransferObjectInterface $dto,
-        EntityInterface $entity = null,
-        $dispatchImmediately = false
-    ) {
+        ?EntityInterface $entity = null,
+        bool $dispatchImmediately = false
+    ): EntityInterface {
         if ($dto->getId() && !$entity) {
             $entityClass = substr(
                 get_class($dto),

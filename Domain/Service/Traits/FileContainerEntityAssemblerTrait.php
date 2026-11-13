@@ -64,18 +64,12 @@ trait FileContainerEntityAssemblerTrait
         }
     }
 
-    /**
-     * @param EntityInterface $entity
-     * @param string $fieldName
-     * @param string|null $tmpFilePath
-     * @return bool
-     */
     protected function fileHasChanged(
         EntityInterface $entity,
         string $fieldName,
-        string $baseName = null,
-        string $tmpFilePath = null
-    ) {
+        ?string $baseName = null,
+        ?string $tmpFilePath = null
+    ): bool {
         if ($tmpFilePath && !$entity->getId()) {
             return true;
         }
@@ -93,17 +87,11 @@ trait FileContainerEntityAssemblerTrait
         return $tmpFilePath !== $currentFile;
     }
 
-    /**
-     * @param EntityInterface $entity
-     * @param string $fieldName
-     * @param string $baseName
-     * @return string
-     */
     protected function getFilePath(
         EntityInterface $entity,
         string $fieldName,
-        string $baseName = null
-    ) {
+        ?string $baseName = null
+    ): ?string {
         return $this
             ->getPathResolver($fieldName, $baseName)
             ->getFilePath($entity);
