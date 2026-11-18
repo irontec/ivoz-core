@@ -19,13 +19,10 @@ class QueryBuilderFactory
 
     /**
      * @param string $entityName
-     * @param array|null $criteria
-     * @param array|null $orderBy
-     * @param integer|null $limit
-     * @param integer|null $offset
-     * @return QueryBuilder
+     * @param int|null $limit
+     * @param int|null $offset
      */
-    public function createFromArguments($entityName, array $criteria = null, array $orderBy = null, $limit = null, $offset = null)
+    public function createFromArguments($entityName, ?array $criteria = null, ?array $orderBy = null, $limit = null, $offset = null): QueryBuilder
     {
         $repository = $this->em->getRepository($entityName);
         $alias = $this->getAlias($entityName);

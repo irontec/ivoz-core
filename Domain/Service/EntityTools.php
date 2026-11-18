@@ -63,7 +63,7 @@ class EntityTools
 
     public function dtoToEntity(
         DataTransferObjectInterface $dto,
-        EntityInterface $entity = null
+        ?EntityInterface $entity = null
     ): EntityInterface {
 
         if ($entity) {
@@ -132,16 +132,12 @@ class EntityTools
 
     /**
      * @internal
-     * @param DataTransferObjectInterface $dto
-     * @param EntityInterface|null $entity
-     * @param bool $dispatchImmediately
-     * @return EntityInterface
      */
     public function persistDto(
         DataTransferObjectInterface &$dto,
-        EntityInterface $entity = null,
-        $dispatchImmediately = false
-    ) {
+        ?EntityInterface $entity = null,
+        bool $dispatchImmediately = false
+    ): EntityInterface {
         $entity = $this
             ->entityPersister
             ->persistDto($dto, $entity, $dispatchImmediately);

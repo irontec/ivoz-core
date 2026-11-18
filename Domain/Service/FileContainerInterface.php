@@ -19,10 +19,7 @@ interface FileContainerInterface
      */
     public function removeTmpFile(TempFile $file);
 
-    /**
-     * @return array
-     */
-    public function getFileObjects(int $filter = null);
+    public function getFileObjects(?int $filter = null): array;
 
 
     /**

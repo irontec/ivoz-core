@@ -38,7 +38,7 @@ class DoctrineRepository extends ServiceEntityRepository implements RepositoryIn
      * @param T|null $entity
      * @return T
      */
-    public function persistDto(DataTransferObjectInterface $dto, EntityInterface $entity = null, $dispatchImmediately = false): EntityInterface
+    public function persistDto(DataTransferObjectInterface $dto, ?EntityInterface $entity = null, $dispatchImmediately = false): EntityInterface
     {
         return
             $this

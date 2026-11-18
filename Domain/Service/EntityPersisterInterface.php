@@ -7,12 +7,7 @@ use Ivoz\Core\Domain\Model\EntityInterface;
 
 interface EntityPersisterInterface
 {
-    /**
-     * @param DataTransferObjectInterface $dto
-     * @param EntityInterface|null $entity
-     * @return EntityInterface
-     */
-    public function persistDto(DataTransferObjectInterface $dto, EntityInterface $entity = null, $dispatchImmediately = false);
+    public function persistDto(DataTransferObjectInterface $dto, ?EntityInterface $entity = null, bool $dispatchImmediately = false): EntityInterface;
 
     /**
      * @param EntityInterface $entity

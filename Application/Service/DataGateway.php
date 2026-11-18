@@ -131,20 +131,15 @@ class DataGateway
     }
 
     /**
-     * @param string $entityName
-     * @param array|null $criteria
-     * @param array|null $orderBy
-     * @param int|null $limit
-     * @param int|null $offset
      * @return DataTransferObjectInterface[]
      */
     public function findBy(
         string $entityName,
-        array $criteria = null,
-        array $orderBy = null,
-        int $limit = null,
-        int $offset = null
-    ) {
+        ?array $criteria = null,
+        ?array $orderBy = null,
+        ?int $limit = null,
+        ?int $offset = null
+    ): array {
         $query = $this
             ->queryBuilderFactory
             ->createFromArguments($entityName, $criteria, $orderBy, $limit, $offset)
@@ -162,19 +157,12 @@ class DataGateway
     }
 
 
-    /**
-     * @param string $entityName
-     * @param array | null $criteria
-     * @param array | null $orderBy
-     * @param int $chunkSize
-     * @return \Generator
-     */
     public function findAllBy(
         string $entityName,
-        array $criteria = null,
-        array $orderBy = null,
+        ?array $criteria = null,
+        ?array $orderBy = null,
         int $chunkSize = 50
-    ) {
+    ): \Generator {
         $qb = $this
             ->queryBuilderFactory
             ->createFromArguments($entityName, $criteria, $orderBy);
@@ -198,21 +186,13 @@ class DataGateway
         }
     }
 
-    /**
-     * @param string $entityName
-     * @param array|null $criteria
-     * @param array|null $orderBy
-     * @param int|null $limit
-     * @param int|null $offset
-     * @return DataTransferObjectInterface | null
-     */
     public function findOneBy(
         string $entityName,
-        array $criteria = null,
-        array $orderBy = null,
-        int $limit = null,
-        int $offset = null
-    ) {
+        ?array $criteria = null,
+        ?array $orderBy = null,
+        ?int $limit = null,
+        ?int $offset = null
+    ): ?DataTransferObjectInterface {
         /** @var DataTransferObjectInterface[] $response */
         $response = $this->findBy(
             $entityName,
@@ -227,12 +207,7 @@ class DataGateway
         );
     }
 
-    /**
-     * @param string $entityName
-     * @param array|null $criteria
-     * @return int
-     */
-    public function countBy(string $entityName, array $criteria = null)
+    public function countBy(string $entityName, ?array $criteria = null): int
     {
         $queryBuilder = $this
             ->queryBuilderFactory

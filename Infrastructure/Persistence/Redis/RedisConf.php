@@ -11,7 +11,7 @@ class RedisConf
     public function __construct(
         string $host,
         int $port,
-        string $name = null
+        ?string $name = null
     ) {
         $this->host = $host;
         $this->port = $port;

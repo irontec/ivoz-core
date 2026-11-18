@@ -13,11 +13,7 @@ interface StoragePathResolverInterface
      */
     public function __construct(string $localStoragePath, string $basePath);
 
-    /**
-     * @param string|null $originalFileName
-     * @return void
-     */
-    public function setOriginalFileName(string $originalFileName = null);
+    public function setOriginalFileName(?string $originalFileName = null): void;
 
     /**
      * @param EntityInterface $entity

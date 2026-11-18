@@ -28,7 +28,7 @@ class CreateEntityFromDto
         $this->entityAssembler = $entityAssembler;
     }
 
-    public function execute(DataTransferObjectInterface $dto, string $entityName = null): EntityInterface
+    public function execute(DataTransferObjectInterface $dto, ?string $entityName = null): EntityInterface
     {
         if (!$entityName) {
             $entityName = substr(

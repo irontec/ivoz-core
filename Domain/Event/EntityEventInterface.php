@@ -4,7 +4,7 @@ namespace Ivoz\Core\Domain\Event;
 
 interface EntityEventInterface extends DomainEventInterface
 {
-    public function __construct(string $entityClass, $entityId, array $changeSet = null);
+    public function __construct(string $entityClass, $entityId, ?array $changeSet = null);
 
     /**
      * @return string
